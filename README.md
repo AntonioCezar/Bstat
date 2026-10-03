@@ -18,6 +18,9 @@
 Bstat/
 ├── src/
 ├── include/
+├── errors/
+│   ├── error.c
+│   └── error.h
 ├── tests/
 ├── app/
 │   └── main.c

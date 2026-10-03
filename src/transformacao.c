@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <error.h>
 
 // faz um insertion sort para organizar os valores em ordem crescente
 double* organizar(double *dataset, int *tamanho){
@@ -23,13 +24,14 @@ double* normalizar(double *dataset, int *tamanho){
   // checa se os valores não são todos iguais
   if (max == min){
     printf("Todos os valores são iguais!\n");
-    exit(1);
+    return dataset;
   }
   //cria o novo array para a escala normalizada
   double *normalizado = malloc(*tamanho * sizeof *dataset);
   if (normalizado == NULL){
+    processar_erro(1, "Erro ao inicializar o vetor dinâmico de valores normalizados");
     printf("Erro ao inicializar o vetor dinâmico de valores normalizados\n");
-    exit(1);
+    return dataset;
   } 
   // normaliza valor a valor na escala
   for (int i = 0; i < *tamanho; i++){
@@ -44,14 +46,16 @@ double* padronizar(double *dataset, int *tamanho){
   double dp = desvio_padrao(dataset, tamanho); // usa a função que faz o dp
   // checa se os valores não são todos iguais
   if (dp == 0.0){
+    processar_erro(1, "Todos os valores passados pelo usuário são iguais!");
     printf("Todos os valores são iguais!\n");
-    exit(1);
+    return dataset;
   }
   //cria o novo array para a escala padronizada
   double *padronizado = malloc(*tamanho * sizeof *dataset);
   if (padronizado == NULL){
+    processar_erro(1, "Erro ao inicializar o vetor dinâmico de valores padronizados");
     printf("Erro ao inicializar o vetor dinâmico de valores padronizados\n");
-    exit(1);
+    return dataset;
   } 
   // padroniza valor a valor na escala
   for (int i = 0; i < *tamanho; i++){
@@ -64,6 +68,7 @@ double* padronizar(double *dataset, int *tamanho){
 double percentil(double *dataset, int *tamanho, double porcentagem){
   // checa se passou a porcentagem correta
   if (porcentagem > 100.0 || porcentagem < 0.0){
+    processar_erro(1, "Porcentagem invalida, o usuário digitou uma porcentagem que não está entre 0 e 100");
     printf("Porcentagem invalida, digite um valor entre 0 e 100\n");
     exit(1);
   }
