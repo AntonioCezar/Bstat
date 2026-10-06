@@ -23,7 +23,6 @@ double* copia_dataset(double *dataset, int *tamanho) {
     double *copia = malloc(*tamanho * sizeof *dataset);
     if (copia == NULL) {
         printf("Erro ao inicializar o vetor dinâmico da cópia do array");
-        printf("Erro ao inicializar o vetor dinâmico da cópia do array\n");
         return dataset;
     }
 
@@ -32,6 +31,13 @@ double* copia_dataset(double *dataset, int *tamanho) {
     }
 
     return copia;
+}
+
+static int quase_igual(double a, double b) {
+    double d = a - b;
+    if (d < 0) d = -d;
+    //Diferença tolerada
+    return d < 1e-9;  
 }
 
 double esperanca(double *dataset, int *tamanho) {
@@ -79,33 +85,41 @@ double mediana(double *dataset, int *tamanho) {
     }
 }
 
-double* pegar_moda(double *valores, int *repets, int j, int maior, int *qtd_modas) {
+static double* pegar_moda(double *copia, int *tamanho, int maior_freq, int qtd_modas, int *apont_qtd_modas) {
 
-    double *modas = malloc(sizeof *modas);
-    int k = 0;
+    double *modas = malloc(qtd_modas * sizeof *modas);
+    if (modas == NULL) {
+        printf("Erro ao inicializar o vetor dinâmico\n");
+        return NULL;
+    }
 
-    for (int i = 0; i <= j; i++) {
-        if (repets[i] == maior) {
-            
-            double *tmp = realloc(modas, (k+1) * sizeof *modas);
-            if (tmp == NULL) {
-                free(modas);
-                printf("Erro na criação de vetor dinâmico.\n");
-                exit(1);
-            }
-            modas = tmp;
+    //Percorre o vetor das modas
+    int idx_modas = 0, freq_atual = 1;
 
-            modas[k] = valores[i];
-            k += 1;
+    for (int i = 1; i < *tamanho; i++) {
 
+        if (quase_igual(copia[i-1],copia[i])) {
+            freq_atual += 1;
+        }   
+        else {
+            if (freq_atual == maior_freq) {
+                modas[idx_modas] = copia[i-1];
+                idx_modas += 1;
+            } 
+            freq_atual = 1;
         }
     }
 
-    *qtd_modas = k;
+    //Processa o último grupo após o término do loop
+    if (freq_atual == maior_freq) {
+        modas[idx_modas] = copia[*tamanho-1];
+    }
+
+    *apont_qtd_modas = qtd_modas;
     return modas;
 }
 
-double* moda(double *dataset, int *tamanho, int *qtd_modas) {
+double* moda(double *dataset, int *tamanho, int *apont_qtd_modas) {
     if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
@@ -114,68 +128,52 @@ double* moda(double *dataset, int *tamanho, int *qtd_modas) {
     double *copia = copia_dataset(dataset, tamanho);
     copia = organizar(copia, tamanho);
 
-    double *modas = malloc(sizeof *modas);
-    double *valores = malloc(sizeof *valores);
-    int *repets = malloc(sizeof *repets);
+    int maior_freq = 1, freq_atual = 1, qtd_modas = 0;
 
-    valores[0] = copia[0];
-    repets[0] = 1;
-
-    int maior = repets[0];
-
-    int j = 0;
-
+    //Identifica o número de repetições da moda e a quantidade de modas
     for(int i = 1; i < *tamanho; i++) {
 
-        if (copia[i] != copia[i-1]) {
-            j += 1;
-
-            double *tmp_val = realloc(valores, (j+1) * sizeof *valores);
-            if (tmp_val == NULL) {
-                free(valores);
-                printf("Erro na criação de vetor dinâmico.\n");
-                exit(1);
-            }
-            valores = tmp_val;
-
-            int *tmp_rep = realloc(repets, (j+1) * sizeof *repets);
-            if (tmp_rep == NULL) {
-                free(repets);
-                printf("Erro na criação de vetor dinâmico.\n");
-                exit(1);
-            }
-            repets = tmp_rep;
-
-            valores[j] = copia[i];
-            repets[j] = 1;
+        if (quase_igual(copia[i], copia[i-1])) {
+            freq_atual += 1;
         }
-
         else {
-            repets[j] += 1;
-        }
-
-        if (repets[j] > maior) {
-            maior = repets[j];
+            if (freq_atual > maior_freq) {
+                maior_freq = freq_atual;
+                qtd_modas = 1;
+            }
+            else if (freq_atual == maior_freq) {
+                qtd_modas += 1;
+            }
+            freq_atual = 1;
         }
 
     }
 
-    double *moda_array = pegar_moda(valores, repets, j, maior, qtd_modas);
+    //Processa o último grupo após o término do loop
+    if (freq_atual > maior_freq) {
+        maior_freq = freq_atual;
+        qtd_modas = 1;
+    } else if (freq_atual == maior_freq) {
+        qtd_modas += 1;
+    }
+
+    //Seleciona os valores que mais se repetem
+    double *moda_array = pegar_moda(copia, tamanho, maior_freq, qtd_modas, apont_qtd_modas);
+
+    free(copia);
 
     return moda_array;
 }
 
 int main() {
-    int tamanho = 3;
-    double dataset[3] = {2,2,1}; // Pode inicializar diretamente assim
-    int qtd_modas = 0;
+    int tamanho = 1;
+    double dataset[1] = {10};
+    int num_modas = 0;
 
-    // printf("Mediana: %.2f\n", calcular_mediana(dataset, &tamanho));
+    double *modas = moda(dataset, &tamanho, &num_modas);
 
-    double *modas = moda(dataset, &tamanho, &qtd_modas);
-
-    for (int i = 0; i < qtd_modas; i++) {
-        printf("%.2f ", modas[i]);
+    for (int i = 0; i < num_modas; i++) {
+        printf("%.2f\n", modas[i]);
     }
 
     return 0;
