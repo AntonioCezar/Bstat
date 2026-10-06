@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "distribuicao.h"
 #define e 2.71828
 
 int fatorial(int n){

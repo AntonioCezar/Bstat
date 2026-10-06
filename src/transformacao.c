@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "transformacao.h"
 #include <error.h>
 
 // faz um insertion sort para organizar os valores em ordem crescente
