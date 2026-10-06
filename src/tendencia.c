@@ -34,7 +34,7 @@ double* copia_dataset(double *dataset, int *tamanho) {
     return copia;
 }
 
-double calcular_media(double *dataset, int *tamanho) {
+double esperanca(double *dataset, int *tamanho) {
     //tenho que ajustar o retorno de erro
     if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
@@ -53,7 +53,7 @@ double calcular_media(double *dataset, int *tamanho) {
     }
 }
 
-double calcular_mediana(double *dataset, int *tamanho) {
+double mediana(double *dataset, int *tamanho) {
     if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
@@ -77,4 +77,106 @@ double calcular_mediana(double *dataset, int *tamanho) {
         
         return mediana;
     }
+}
+
+double* pegar_moda(double *valores, int *repets, int j, int maior, int *qtd_modas) {
+
+    double *modas = malloc(sizeof *modas);
+    int k = 0;
+
+    for (int i = 0; i <= j; i++) {
+        if (repets[i] == maior) {
+            
+            double *tmp = realloc(modas, (k+1) * sizeof *modas);
+            if (tmp == NULL) {
+                free(modas);
+                printf("Erro na criação de vetor dinâmico.\n");
+                exit(1);
+            }
+            modas = tmp;
+
+            modas[k] = valores[i];
+            k += 1;
+
+        }
+    }
+
+    *qtd_modas = k;
+    return modas;
+}
+
+double* moda(double *dataset, int *tamanho, int *qtd_modas) {
+    if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
+        printf("Erro: dataset vazio ou inválido.\n");
+        exit(1);
+    }  
+
+    double *copia = copia_dataset(dataset, tamanho);
+    copia = organizar(copia, tamanho);
+
+    double *modas = malloc(sizeof *modas);
+    double *valores = malloc(sizeof *valores);
+    int *repets = malloc(sizeof *repets);
+
+    valores[0] = copia[0];
+    repets[0] = 1;
+
+    int maior = repets[0];
+
+    int j = 0;
+
+    for(int i = 1; i < *tamanho; i++) {
+
+        if (copia[i] != copia[i-1]) {
+            j += 1;
+
+            double *tmp_val = realloc(valores, (j+1) * sizeof *valores);
+            if (tmp_val == NULL) {
+                free(valores);
+                printf("Erro na criação de vetor dinâmico.\n");
+                exit(1);
+            }
+            valores = tmp_val;
+
+            int *tmp_rep = realloc(repets, (j+1) * sizeof *repets);
+            if (tmp_rep == NULL) {
+                free(repets);
+                printf("Erro na criação de vetor dinâmico.\n");
+                exit(1);
+            }
+            repets = tmp_rep;
+
+            valores[j] = copia[i];
+            repets[j] = 1;
+        }
+
+        else {
+            repets[j] += 1;
+        }
+
+        if (repets[j] > maior) {
+            maior = repets[j];
+        }
+
+    }
+
+    double *moda_array = pegar_moda(valores, repets, j, maior, qtd_modas);
+
+    return moda_array;
+}
+
+int main() {
+    int tamanho = 3;
+    double dataset[3] = {2,2,1}; // Pode inicializar diretamente assim
+    int qtd_modas = 0;
+
+    // printf("Mediana: %.2f\n", calcular_mediana(dataset, &tamanho));
+
+    double *modas = moda(dataset, &tamanho, &qtd_modas);
+
+    for (int i = 0; i < qtd_modas; i++) {
+        printf("%.2f ", modas[i]);
+    }
+
+    return 0;
 }
