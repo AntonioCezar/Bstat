@@ -4,11 +4,11 @@
 #define e 2.71828
 
 int fatorial(int n){
-  int fator = 1; for (n; n > 0; n--) fator *= n; return fator;
+  int fator = 1; for (; n > 0; n--) fator *= n; return fator;
 }
 
 double elevado(int n, int ex){
-  int ele = n; for (ex; ex > 1; ex--) ele *= ele; return ele;
+  int ele = 1; for (int i = 0; i < ex; i++) ele *= n; return ele;
 }
 
 double combinacao(int n, int k){

@@ -1,7 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "transformacao.h"
-#include <error.h>
+#include "error.h"
+
+//provisório
+
+double esperanca(double *dataset, int *tamanho){
+  return 1;
+}
+
+double desvio_padrao(double *dataset, int *tamanho){
+  return 1;
+}
 
 // faz um insertion sort para organizar os valores em ordem crescente
 double* organizar(double *dataset, int *tamanho){

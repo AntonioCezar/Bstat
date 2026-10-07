@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "error.h"
 
 void processar_erro(int codigo, char *mensagem){
 
@@ -20,7 +21,7 @@ void processar_erro(int codigo, char *mensagem){
 
   if (arquivo == NULL) {
         printf("Erro ao criar o arquivo de log!\n");
-        exit(1);
+        exit(2);
     }
   
   // coloca informações no arquivo de log
