@@ -3,7 +3,7 @@
 #include "transformacao.h"
 #include "error.h"
 
-//provisório
+// provisório para testes
 
 double esperanca(double *dataset, int *tamanho){
   return 1;
