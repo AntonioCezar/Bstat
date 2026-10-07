@@ -3,12 +3,9 @@
 #include "../include/tendencia.h"
 
 //As 3 primeiras funções são cópias provisórias pra testes
-int soma (int a, int b) {
-    return a + b;
-}
 
-double* organizar(double *dataset, int *tamanho) {
-  for (int i = 1; i < *tamanho; i++){
+static double* organizar(double *dataset, int tamanho) {
+  for (int i = 1; i < tamanho; i++){
     int n = 0;
     while ((i-n-1) >= 0 && dataset[i-n] < dataset[i-n-1]){
       double tmp = dataset[i-n-1];
@@ -20,35 +17,35 @@ double* organizar(double *dataset, int *tamanho) {
   return dataset;
 }
 
-double* copia_dataset(double *dataset, int *tamanho) {
-    if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
+static double* copia_dataset(double *dataset, int tamanho) {
+    if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
     }
 
-    double *copia = malloc(*tamanho * sizeof *dataset);
+    double *copia = malloc(tamanho * sizeof *dataset);
     if (copia == NULL) {
         printf("Erro ao inicializar o vetor dinâmico da cópia do array");
         return dataset;
     }
 
-    for (int i = 0; i < *tamanho; i++) {
+    for (int i = 0; i < tamanho; i++) {
         copia[i] = dataset[i];
     }
 
     return copia;
 }
 
-int quase_igual(double a, double b) {
+static int quase_igual(double a, double b) {
     double d = a - b;
     if (d < 0) d = -d;
     //Diferença tolerada
     return d < 1e-9;  
 }
 
-double esperanca(double *dataset, int *tamanho) {
+double media(double *dataset, int tamanho) {
     //tenho que ajustar o retorno de erro
-    if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
+    if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
     }
@@ -56,17 +53,17 @@ double esperanca(double *dataset, int *tamanho) {
     else {
         double soma = 0;
 
-        for (int i = 0; i < *tamanho; i++) {
+        for (int i = 0; i < tamanho; i++) {
             soma += dataset[i];
         }
 
-        double media = (soma / *tamanho);
+        double media = (soma / tamanho);
         return media;
     }
 }
 
-double mediana(double *dataset, int *tamanho) {
-    if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
+double mediana(double *dataset, int tamanho) {
+    if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
     }
@@ -75,10 +72,10 @@ double mediana(double *dataset, int *tamanho) {
         double *copia = copia_dataset(dataset, tamanho);
         copia = organizar(copia, tamanho);
 
-        int i = (*tamanho/2);
+        int i = (tamanho/2);
         double mediana;
 
-        if (*tamanho%2 == 0) {
+        if (tamanho%2 == 0) {
             mediana = ( copia[i] + copia[i-1] ) / 2.0; 
         }
         else {
@@ -91,7 +88,7 @@ double mediana(double *dataset, int *tamanho) {
     }
 }
 
-double* pegar_moda(double *copia, int *tamanho, int maior_freq, int qtd_modas, int *apont_qtd_modas) {
+static double* pegar_moda(double *copia, int tamanho, int maior_freq, int qtd_modas, int *apont_qtd_modas) {
 
     double *modas = malloc(qtd_modas * sizeof *modas);
     if (modas == NULL) {
@@ -102,7 +99,7 @@ double* pegar_moda(double *copia, int *tamanho, int maior_freq, int qtd_modas, i
     //Percorre o vetor das modas
     int idx_modas = 0, freq_atual = 1;
 
-    for (int i = 1; i < *tamanho; i++) {
+    for (int i = 1; i < tamanho; i++) {
 
         if (quase_igual(copia[i-1],copia[i])) {
             freq_atual += 1;
@@ -118,15 +115,15 @@ double* pegar_moda(double *copia, int *tamanho, int maior_freq, int qtd_modas, i
 
     //Processa o último grupo após o término do loop
     if (freq_atual == maior_freq) {
-        modas[idx_modas] = copia[*tamanho-1];
+        modas[idx_modas] = copia[tamanho-1];
     }
 
     *apont_qtd_modas = qtd_modas;
     return modas;
 }
 
-double* moda(double *dataset, int *tamanho, int *apont_qtd_modas) {
-    if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
+double* moda(double *dataset, int tamanho, int *apont_qtd_modas) {
+    if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
     }  
@@ -137,7 +134,7 @@ double* moda(double *dataset, int *tamanho, int *apont_qtd_modas) {
     int maior_freq = 1, freq_atual = 1, qtd_modas = 0;
 
     //Identifica o número de repetições da moda e a quantidade de modas
-    for(int i = 1; i < *tamanho; i++) {
+    for(int i = 1; i < tamanho; i++) {
 
         if (quase_igual(copia[i], copia[i-1])) {
             freq_atual += 1;

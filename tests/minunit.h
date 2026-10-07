@@ -3,27 +3,60 @@
 #include <stdio.h>
 #include <string.h>
 
-static int tests_run = 0, tests_failed = 0;
+static int testes_run = 0, falhas = 0;
 
-#define ASSERT_EQ_INT(esperado, obtido) do {                            \
-    int es = (esperado), ob = (obtido);                                 \
-    tests_run++;                                                        \
-    if(es != ob) {                                                      \
-        tests_failed++;                                                 \
-        printf("Teste mal-sucedido: %s:%d: esperado: %d, obtido: %d\n", \
+static int quase_igual(double a, double b) {
+    double d = a - b;
+    if (d < 0) d = -d;
+    //Diferença tolerada
+    return d < 1e-9;  
+}
+
+//Compara doubles
+#define ASSERT_EQ_DOUBLE(esperado, obtido) do {                         \
+    double es = (esperado), ob = (obtido);                              \
+    testes_run++;                                                       \
+    if(!quase_igual(es, ob)) {                                          \
+        falhas++;                                                       \
+        printf(" Erro: %s:linha %d: esperado: %.2f, obtido: %.2f\n",    \
              __FILE__, __LINE__, es, ob);                               \
     }                                                                   \
 } while (0)
 
-//#define ASSERT_EQ_DOUBLE(esperado, obtido)
+//Compara ints
+#define ASSERT_EQ_INT(esperado, obtido) do {                            \
+    int es = (esperado), ob = (obtido);                                 \
+    testes_run++;                                                       \
+    if(es != ob) {                                                      \
+        falhas++;                                                       \
+        printf(" Erro: %s:linha %d: esperado: %d, obtido: %d\n",        \
+             __FILE__, __LINE__, es, ob);                               \
+    }                                                                   \
+} while (0)
 
-//#define ASSERT_EQ_ARRAY(esperado, obtido)
+//Compara arrays double
+#define ASSERT_EQ_ARRAY(esperado, obtido, tamanho) do {                 \
+    double *es = (esperado), *ob = (obtido);                            \
+    int *n = (tamanho);                                                 \
+    testes_run++;                                                       \
+    for (int i = 0; i < *n; i++) {                                      \
+        if (!quase_igual(es[i], ob[i])) {                               \
+            falhas++;                                                   \
+            printf(" Erro: %s:índice %d: esperado: %f, obtido: %f\n",   \
+                 __FILE__, i, es[i], ob[i]);                            \
+            break;                                                      \
+        }                                                               \
+    }                                                                   \
+} while (0)                     
+    
 
-#define RUN_TESTE(teste) do { printf(" %s\n", #teste); teste(); } while (0)   
+
+
+#define RUN_TESTE(teste) do { printf("*%s\n", #teste); teste(); } while (0)   
 
 #define RESUMO_TESTE() do {                                             \
-    printf(" testes: %d, falhas: %d\n", tests_run, tests_failed);       \
-    return tests_failed ? 1 : 0;                                        \
+    printf("Testes: %d, Falhas: %d\n", testes_run, falhas);             \
+    return falhas ? 1 : 0;                                              \
 } while (0)
 
 #endif
