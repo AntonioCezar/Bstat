@@ -1,19 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-double* organizar(double *dataset, int *tamanho){
-  for (int i = 1; i < *tamanho; i++){
-    int n = 0;
-    while ((i-n-1) >= 0 && dataset[i-n] < dataset[i-n-1]){
-      double tmp = dataset[i-n-1];
-      dataset[i-n-1] = dataset[i-n];
-      dataset[i-n] = tmp;
-      n++;
-    }
-  }
-  return dataset;
-}
-
 double* copia_dataset(double *dataset, int *tamanho) {
     if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
