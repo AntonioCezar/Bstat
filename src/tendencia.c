@@ -1,5 +1,24 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "../include/tendencia.h"
+
+//As 3 primeiras funções são cópias provisórias pra testes
+int soma (int a, int b) {
+    return a + b;
+}
+
+double* organizar(double *dataset, int *tamanho) {
+  for (int i = 1; i < *tamanho; i++){
+    int n = 0;
+    while ((i-n-1) >= 0 && dataset[i-n] < dataset[i-n-1]){
+      double tmp = dataset[i-n-1];
+      dataset[i-n-1] = dataset[i-n];
+      dataset[i-n] = tmp;
+      n++;
+    }
+  }
+  return dataset;
+}
 
 double* copia_dataset(double *dataset, int *tamanho) {
     if (dataset == NULL || tamanho == NULL || *tamanho <= 0) {
@@ -20,7 +39,7 @@ double* copia_dataset(double *dataset, int *tamanho) {
     return copia;
 }
 
-static int quase_igual(double a, double b) {
+int quase_igual(double a, double b) {
     double d = a - b;
     if (d < 0) d = -d;
     //Diferença tolerada
@@ -72,7 +91,7 @@ double mediana(double *dataset, int *tamanho) {
     }
 }
 
-static double* pegar_moda(double *copia, int *tamanho, int maior_freq, int qtd_modas, int *apont_qtd_modas) {
+double* pegar_moda(double *copia, int *tamanho, int maior_freq, int qtd_modas, int *apont_qtd_modas) {
 
     double *modas = malloc(qtd_modas * sizeof *modas);
     if (modas == NULL) {
@@ -150,18 +169,4 @@ double* moda(double *dataset, int *tamanho, int *apont_qtd_modas) {
     free(copia);
 
     return moda_array;
-}
-
-int main() {
-    int tamanho = 1;
-    double dataset[1] = {10};
-    int num_modas = 0;
-
-    double *modas = moda(dataset, &tamanho, &num_modas);
-
-    for (int i = 0; i < num_modas; i++) {
-        printf("%.2f\n", modas[i]);
-    }
-
-    return 0;
 }
