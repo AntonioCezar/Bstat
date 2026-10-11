@@ -52,9 +52,10 @@ static Caso casos[] = {
 #define NUM_CASOS ((int) (sizeof(casos)/sizeof(casos[0])))
 
 static void preencher_dataset(void) {
+    int tamanho;
     for (int i = 0; i < NUM_CASOS; i++) {
-        casos[i].dataset = coletar_dados(casos[i].arquivo);
-        casos[i].tamanho = obter_tamanho(casos[i].dataset);
+        casos[i].dataset = coletar_dados(casos[i].arquivo, &tamanho);
+        casos[i].tamanho = tamanho;
     }
 }
 
@@ -107,10 +108,10 @@ static void teste_padronizar(void) {
 static void teste_valores_constantes(void) {
     const char *arquivo = "tests/data/transformacoes/constantes.txt";
     printf("  [%s]\n", arquivo);
-    double *data = coletar_dados(arquivo);
-    int tam = obter_tamanho(data);
-    ASSERT_EQ_INT(1, normalizar(data, tam) == NULL);
-    ASSERT_EQ_INT(1, padronizar(data, tam) == NULL);
+    int tamanho;
+    double *data = coletar_dados(arquivo, &tamanho);
+    ASSERT_EQ_INT(1, normalizar(data, tamanho) == NULL);
+    ASSERT_EQ_INT(1, padronizar(data, tamanho) == NULL);
     liberar_dados(data);
 }
 

@@ -2,6 +2,8 @@ CC = gcc
 CFLAGS = -fPIC -Wall -Iinclude -Ierrors
 OBJ = build/transformacao.o build/tendencia.o build/distribuicao.o build/dispersao.o build/dados.o build/error.o
 MAIN = build/main.o
+TEST_BIN = $(patsubst tests/%.c,build/%,$(wildcard tests/test_*.c))
+TEST_FLAGS = -Wall -Wextra -g -fsanitize=address,undefined -Iinclude -Ierrors
 
 all: lib/libBstatStatic.a lib/libBstatDinamic.so
 
@@ -19,7 +21,7 @@ bin/bstat_static: $(MAIN)
 	$(CC) $(MAIN) -Llib -lBstatStatic -o $@
 
 bin/bstat_dinamic: $(MAIN)
-	$(CC) $(MAIN) -Llib -lBstatDinamic -Wl,-rpath,'$$ORIGIN/build' -o $@
+	$(CC) $(MAIN) -Llib -lBstatDinamic -Wl,-rpath,'$$ORIGIN/../lib' -o $@
 
 # -----
 
@@ -32,6 +34,9 @@ build/error.o: errors/error.c | build
 build/main.o: app/main.c | build
 	$(CC) $(CFLAGS) -c $< -o $@
 
+build/test_%: tests/test_%.c $(OBJ) | build
+	$(CC) $(TEST_FLAGS) $^ -o $@
+
 # -----
 
 build:
@@ -42,7 +47,7 @@ build:
 # -----
 
 clean:
-	rm -f build/*.o
+	rm -f build/*.o build/test_*
 	rm -f lib/*.a lib/*.so
 	rm -f bin/bstat_dinamic bin/bstat_static
 
@@ -57,4 +62,12 @@ install: bin/bstat_static bin/bstat_dinamic
 
 # -----
 
-test: 
+test: $(TEST_BIN)
+	@for t in $(TEST_BIN); do \
+		echo "== $$t"; \
+		./$$t || exit 1; \
+	done
+
+# -----
+
+.PHONY: all clean run install test
