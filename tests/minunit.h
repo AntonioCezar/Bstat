@@ -18,7 +18,7 @@ static int quase_igual(double a, double b) {
     testes_run++;                                                       \
     if(!quase_igual(es, ob)) {                                          \
         falhas++;                                                       \
-        printf(" Erro: %s:linha %d: esperado: %.2f, obtido: %.2f\n",    \
+        printf(" Erro: %s:linha %d: esperado: %.10g, obtido: %.10g\n",    \
              __FILE__, __LINE__, es, ob);                               \
     }                                                                   \
 } while (0)
@@ -36,10 +36,10 @@ static int quase_igual(double a, double b) {
 
 //Compara arrays double
 #define ASSERT_EQ_ARRAY(esperado, obtido, tamanho) do {                 \
-    double *es = (esperado), *ob = (obtido);                            \
-    int *n = (tamanho);                                                 \
+    const double *es = (esperado), *ob = (obtido);                            \
+    int n = (tamanho);                                                 \
     testes_run++;                                                       \
-    for (int i = 0; i < *n; i++) {                                      \
+    for (int i = 0; i < n; i++) {                                      \
         if (!quase_igual(es[i], ob[i])) {                               \
             falhas++;                                                   \
             printf(" Erro: %s:índice %d: esperado: %f, obtido: %f\n",   \

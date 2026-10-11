@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-double* coletar_dados(int *quantidade) { //quantidade é um int q já existia e q é alterado por essa função
+double* coletar_dados(int *tamanho) { //quantidade é um int q já existia e q é alterado por essa função
 
     char nomedoarquivo[260];
     printf("Digite o nome do arquivo .txt (incluindo o .txt) que armazena as amostras coletadas:");
@@ -12,7 +12,7 @@ double* coletar_dados(int *quantidade) { //quantidade é um int q já existia e 
         exit(1);
     }
     double *dados = malloc(1 * sizeof *dados); //cria o malloc inicialmente com só 1 de tamanho
-    int i=0;
+    int i = 0;
     while (fscanf(f, "%f", &dados[i]) != EOF) {
         i++;
         double *temp = realloc(dados, (i+1) * sizeof *dados);//no final o vetor vai ter tamanho 1 a mais que o numero de dados
@@ -22,7 +22,7 @@ double* coletar_dados(int *quantidade) { //quantidade é um int q já existia e 
         }
         dados = temp;
     }
-    quantidade = i;
+    tamanho = i;
     fclose(f);
     return dados;
 }
@@ -30,9 +30,4 @@ double* coletar_dados(int *quantidade) { //quantidade é um int q já existia e 
 void liberar_dados(double *v){
     free(v);
     v = NULL;
-}
-
-int main()
-{
-    return 0;
 }
