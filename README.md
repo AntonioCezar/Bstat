@@ -31,37 +31,98 @@ Bstat/
 ## Gestão de dados central
 
 - Criar Dataset
+
+```c
+coletar_dados(caminho_do_arquivo_txt, ponteiro_para_int_que_guardara_tamanho_do_vetor_criado)
+```
+  
 - Liberar Dataset
-- Obter Tamanho
+
+```c
+liberar_dataset(vetor_dataset)
+```
+
 - Validar Dataset
 
-Coleta de dados para o dataset mudará de acordo com a função que será chamada e usará alocação dinâmica de espaçi para guardar as informações que o usuário passar.
+```c
+validar(vetor_dataset)
+```
+
+A função *coletar_dados* (Criar Dataset) coletará os valores de um arquivo com extensão `.txt` com valores separados por uma quebra de linha. A função usa alocação dinâmica de espaço para guardar as informações que o usuário passar.
+
+Já a função *validar* (Validar Dataset) tem o objetivo de checar se o vetor dinâmico passado pelo usuário na utilização direta da biblioteca em seu código é válido para a utilização nas funções disponíveis da BStat.
 
 ## Medidas de tendência central
 
 - Média
+
+```c
+media(vetor_dataset, tamanho_do_vetor)
+```
+
 - Mediana
+
+```c
+mediana(vetor_dataset, tamanho_do_vetor)
+```
+
 - Moda
-- Máximo
-- Mínimo
+
+```c
+moda(vetor_dataset, tamanho_do_vetor, quantidade_modas)
+```
 
 ## Medidas de dispersão
 
 - Variância
+
+```c
+variancia(vetor_dataset, tamanho_do_vetor)
+```
+
 - Desvio Padrão
+
+```c
+desvio_padrao(vetor_dataset, tamanho_do_vetor)
+```
+
 - Amplitude
+
+```c
+amplitude(vetor_dataset, tamanho_do_vetor)
+```
+
+- Coeficiente de Variação
+
+```c
+coef_variacao(vetor_dataset, tamanho_do_vetor)
+```
 
 ## Transformações
 
 - Normalizar Escala
+
+```c
+normalizar(vetor_dataset, tamanho_do_vetor)
+```
+
 - Padronização
+
+```c
+padronizar(vetor_dataset, tamanho_do_vetor)
+```
+
 - Percentil
 
-## Comandos
+```c
+percentil(vetor_dataset, tamanho_do_vetor, percentil_desejado, vetor_para_guardar_retorno_da_funcao)
+```
 
-- Comando 1
-- Comando 2
-- Comando 3
+- Remoção de Outliers
+
+```c
+filtro_outliers(vetor_dataset, tamanho_do_vetor, vetor_para_guardar_novo_tamanho_sem_outliers)
+```
 
 ## Makefile
 
@@ -115,18 +176,23 @@ Limpa todos os artefatos gerados na compilação das bibliotecas.
 
 Módulo de erro central que lida com possibilidades de erro de todos os módulos em apenas um script, visando deixar o tratamento padronizado e organizado para todo o projeto.
 
+O módulo recebe a mensagem de erro e o código, abaixo estão listado os códigos dos principais erros tratados:
+
+- erro 1 (desc)
+- erro 2 (desc)
+- erro 3 (desc)
+
 ## Estratégia no Git
 
-Existirá uma branch para cada um dos 4 principais módulos:
+Há no projeto uma branch para cada um dos 4 principais módulos:
 
 - Gestão de dados
 - Medidas de tendência central
 - Medidas de dispersão
 - Transformações
 
-Além de branchs adicionais para a adição de outros módulos importantes como:
+Além de uma branch adicional para auxiliar na comunicação entre os módulos durante o projeto:
 
-- Makefile
-- ErrorHandler
+- develop
 
 Os merges para a `main` são feitos de forma incremental, conforme cada módulo é finalizado e testado.
