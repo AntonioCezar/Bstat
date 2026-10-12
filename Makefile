@@ -1,9 +1,10 @@
 CC = gcc
 CFLAGS = -fPIC -Wall -Iinclude -Ierrors
-OBJ = build/transformacao.o build/tendencia.o build/distribuicao.o build/dispersao.o build/dados.o build/error.o
+OBJ = $(patsubst src/%.c,build/%.o,$(wildcard src/*.c)) build/error.o
 MAIN = build/main.o
 TEST_BIN = $(patsubst tests/%.c,build/%,$(wildcard tests/test_*.c))
-TEST_FLAGS = -Wall -Wextra -g -fsanitize=address,undefined -Iinclude -Ierrors
+HEADERS = $(wildcard include/*.h errors/*.h)
+TEST_FLAGS = -Wall -g -fsanitize=address,undefined -Iinclude -Ierrors # o sanitize detecta memory-leaks
 
 all: lib/libBstatStatic.a lib/libBstatDinamic.so
 
@@ -25,13 +26,13 @@ bin/bstat_dinamic: $(MAIN)
 
 # -----
 
-build/%.o: src/%.c | build
+build/%.o: src/%.c $(HEADERS) | build
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/error.o: errors/error.c | build
+build/error.o: errors/error.c $(HEADERS) | build
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/main.o: app/main.c | build
+build/main.o: app/main.c $(HEADERS) | build
 	$(CC) $(CFLAGS) -c $< -o $@
 
 build/test_%: tests/test_%.c $(OBJ) | build
@@ -64,7 +65,7 @@ install: bin/bstat_static bin/bstat_dinamic
 
 test: $(TEST_BIN)
 	@for t in $(TEST_BIN); do \
-		echo "== $$t"; \
+		printf '\033[1;36m================== %s ==================\033[0m\n' $$t; \
 		./$$t || exit 1; \
 	done
 

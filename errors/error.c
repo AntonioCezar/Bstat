@@ -13,7 +13,7 @@ void processar_erro(int codigo, char *mensagem){
 
   // cria o array de chars nome_arquivo e coloca as informações de tempo e codigo de erro nele
   char nome_arquivo[64];
-  snprintf(nome_arquivo, sizeof(nome_arquivo), "%02d_%02d_%02d_%d", info_tempo->tm_hour, info_tempo->tm_min, info_tempo->tm_sec, codigo);
+  snprintf(nome_arquivo, sizeof(nome_arquivo), "Log_%02d_%02d_%02d_Cod_%d", info_tempo->tm_hour, info_tempo->tm_min, info_tempo->tm_sec, codigo);
 
   // cria o arquivo de log
   FILE *arquivo;
@@ -25,11 +25,12 @@ void processar_erro(int codigo, char *mensagem){
     }
   
   // coloca informações no arquivo de log
-  fprintf(arquivo, "Código de erro: " + codigo);
+  fprintf(arquivo, "Código de erro: ");
+  fprintf(arquivo, "%d", codigo);
   fprintf(arquivo, "\nMensagem de erro: ");
   fprintf(arquivo, mensagem);
 
-  printf("Log de erro criado no diretório atual!");
+  printf("Log de erro criado no diretório atual!\n");
   
   fclose(arquivo);
 }

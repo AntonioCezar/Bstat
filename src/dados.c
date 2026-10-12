@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "dados.h"
 
 void mudtamvet(double **vetor,int novotamanho) {//mudtamvet recebe a memória de onde ta o ponteiro de dados
             double *temp = realloc(*vetor, (novotamanho) * sizeof **vetor);
@@ -19,7 +20,7 @@ double* novovet(int tamanho){
     return vetor;
 }
 
-double* coletar_dados(char *nomedoarquivo, int *quantidade) { //quantidade é um int q já existia e q é alterado por essa função
+double* coletar_dados(const char *nomedoarquivo, int *quantidade) { //quantidade é um int q já existia e q é alterado por essa função
 
     FILE *f = fopen(nomedoarquivo,"r"); //abrimos o arquivo
     if (f == NULL) { // ve se deu erro
@@ -28,7 +29,7 @@ double* coletar_dados(char *nomedoarquivo, int *quantidade) { //quantidade é um
     }
     double *dados = NULL;
     double a;
-    int i=0;
+    int i = 0;
     while (fscanf(f, "%lf", &a) == 1) {
         mudtamvet(&dados, i+1);
         dados[i]=a;
@@ -44,7 +45,4 @@ void pedirnomedoarquivo(char *nomedoarquivo){ //precisa ter declarado char nomed
     scanf(" %259[^\n]", nomedoarquivo); //sabemos o arquivos com os dados
 }
 
-void liberar_dados(double **dados){
-    free(*dados);
-    *dados = NULL;
-}
+void liberar_dados(double *dados){ free(dados); }

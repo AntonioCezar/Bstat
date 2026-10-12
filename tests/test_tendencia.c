@@ -1,7 +1,8 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include "minunit.h"
-#include "../include/tendencia.h"
+#include "tendencia.h"
+#include "dados.h"
 
 #define MAX_MODAS 64
 
@@ -28,10 +29,11 @@ static Caso casos[] = {
 
 //Preenche o campo dataset dos objetos
 static void preencher_dataset(void) {
+    int tamanho;
     for (int i = 0; i < NUM_CASOS; i++) {
         //Por enquanto as funções do módulo dados não funcionam
-        casos[i].dataset = coletar_dados(casos[i].arquivo);
-        casos[i].tamanho = obter_tamanho(casos[i].dataset);
+        casos[i].dataset = coletar_dados(casos[i].arquivo, &tamanho);
+        casos[i].tamanho = tamanho;
     }
 }
 
@@ -75,7 +77,7 @@ static void teste_moda(void) {
 
 
 int main(void) {
-    printf("***Tendência Central:\n");
+    preencher_dataset();
     RUN_TESTE(teste_media);
     RUN_TESTE(teste_mediana);
     RUN_TESTE(teste_moda);

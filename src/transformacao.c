@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "transformacao.h"
+#include "dispersao.h"
+#include "tendencia.h"
 #include "error.h"
 
 // copia o vetor do parametro 1 para o vetor do parametro 2 (passar para utils .c)
@@ -10,7 +12,7 @@ void copiar_vetor(const double *dataset, double *copia, int tamanho){
 
 // faz um insertion sort para organizar os valores em ordem crescente
 double* organizar(const double *dataset, int tamanho){
-  if (tamanho <= 0){
+  if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para organizar\n");
     printf("Dataset vazio passado para organizar\n");
     return NULL;
@@ -40,7 +42,7 @@ double* organizar(const double *dataset, int tamanho){
 
 // normaliza os valores em uma escala de 0 a 1
 double* normalizar(const double *dataset, int tamanho){
-  if (tamanho <= 0){
+  if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para normalizar\n");
     printf("Dataset vazio passado para normalizar\n");
     return NULL;
@@ -77,13 +79,13 @@ double* normalizar(const double *dataset, int tamanho){
 
 // padroniza os valores para que o desvio padrão dê 1 e a média 0
 double* padronizar(const double *dataset, int tamanho){
-  if (tamanho <= 0){
-  processar_erro(1, "Dataset vazio passado para padronizar\n");
-  printf("Dataset vazio passado para padronizar\n");
-  return NULL;
+  if (dataset == NULL || tamanho <= 0){
+    processar_erro(1, "Dataset vazio passado para padronizar\n");
+    printf("Dataset vazio passado para padronizar\n");
+    return NULL;
   }
 
-  double media = esperanca(dataset, tamanho); // usa a função que faz a média
+  double md = media(dataset, tamanho); // usa a função que faz a média
   double dp = desvio_padrao(dataset, tamanho); // usa a função que faz o dp
 
   // checa se os valores não são todos iguais
@@ -103,17 +105,17 @@ double* padronizar(const double *dataset, int tamanho){
 
   // padroniza valor a valor na escala
   for (int i = 0; i < tamanho; i++){
-    padronizado[i] = (dataset[i] - media) / dp;
+    padronizado[i] = (dataset[i] - md) / dp;
   }
   return padronizado;
 }
 
 // recebe um percentil do conjunto de dados e retorna o valor que estaria naquele percentil
 int percentil(const double *dataset, int tamanho, double porcentagem, double *resultado){
-  if (tamanho <= 0){
-  processar_erro(1, "Dataset vazio passado para percentil\n");
-  printf("Dataset vazio passado para percentil\n");
-  return 1;
+  if (dataset == NULL || tamanho <= 0){
+    processar_erro(1, "Dataset vazio passado para percentil\n");
+    printf("Dataset vazio passado para percentil\n");
+    return 1;
   }
 
   // checa se passou a porcentagem correta
@@ -138,6 +140,12 @@ int percentil(const double *dataset, int tamanho, double porcentagem, double *re
 
 // remove do dataset os valores extremos além dos limites superior e inferior (como em um box-plot)
 double* filtro_outliers(const double *dataset, int tamanho, int *novo_tamanho){
+  if (dataset == NULL || tamanho <= 0){
+    processar_erro(1, "Dataset vazio passado para outliers\n");
+    printf("Dataset vazio passado para outliers\n");
+    return NULL;
+  }
+  
   *novo_tamanho = -1; // caso retorne NULL deixa o novo tamanho assim, indicando erro
   // faz as contas básicas necessárias para detectar os outliers
 

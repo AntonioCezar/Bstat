@@ -1,5 +1,5 @@
 ﻿#include "minunit.h"
-#include "../include/dados.h"
+#include "dados.h"
 
 //Aqui você cria funções de teste usando os asserts do minunit.h
 

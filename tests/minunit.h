@@ -1,16 +1,12 @@
 ﻿#ifndef MINUNIT_H
 #define MINUNIT_H
+#define COR_AMARELO  "\033[33m"
+#define COR_RESET    "\033[0m"
 #include <stdio.h>
 #include <string.h>
+#include "tendencia.h"
 
 static int testes_run = 0, falhas = 0;
-
-static int quase_igual(double a, double b) {
-    double d = a - b;
-    if (d < 0) d = -d;
-    //Diferença tolerada
-    return d < 1e-9;  
-}
 
 //Compara doubles
 #define ASSERT_EQ_DOUBLE(esperado, obtido) do {                         \
@@ -18,7 +14,7 @@ static int quase_igual(double a, double b) {
     testes_run++;                                                       \
     if(!quase_igual(es, ob)) {                                          \
         falhas++;                                                       \
-        printf(" Erro: %s:linha %d: esperado: %.10g, obtido: %.10g\n",    \
+        printf(" Erro: %s:linha %d: esperado: %.10g, obtido: %.10g\n",  \
              __FILE__, __LINE__, es, ob);                               \
     }                                                                   \
 } while (0)
@@ -36,10 +32,10 @@ static int quase_igual(double a, double b) {
 
 //Compara arrays double
 #define ASSERT_EQ_ARRAY(esperado, obtido, tamanho) do {                 \
-    const double *es = (esperado), *ob = (obtido);                            \
-    int n = (tamanho);                                                 \
+    const double *es = (esperado), *ob = (obtido);                      \
+    int n = (tamanho);                                                  \
     testes_run++;                                                       \
-    for (int i = 0; i < n; i++) {                                      \
+    for (int i = 0; i < n; i++) {                                       \
         if (!quase_igual(es[i], ob[i])) {                               \
             falhas++;                                                   \
             printf(" Erro: %s:índice %d: esperado: %f, obtido: %f\n",   \
@@ -52,7 +48,7 @@ static int quase_igual(double a, double b) {
 
 
 
-#define RUN_TESTE(teste) do { printf("*%s\n", #teste); teste(); } while (0)   
+#define RUN_TESTE(teste) do { printf(COR_AMARELO "*** %s ***" COR_RESET "\n", #teste); teste(); } while (0)   
 
 #define RESUMO_TESTE() do {                                             \
     printf("Testes: %d, Falhas: %d\n", testes_run, falhas);             \

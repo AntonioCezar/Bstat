@@ -1,8 +1,8 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include "minunit.h"
-#include "../include/transformacao.h"
-#include "../include/dados.h"
+#include "transformacao.h"
+#include "dados.h"
 
 #define MAX_VALORES 64
 #define NUM_PERCENTIS 5
@@ -148,7 +148,6 @@ static void teste_filtro_outliers(void) {
 }
 
 int main(void) {
-    printf("Testes do Módulo de Transformação:\n");
     preencher_dataset();
     RUN_TESTE(teste_organizar);
     RUN_TESTE(teste_organizar_invalido);

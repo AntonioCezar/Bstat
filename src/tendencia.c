@@ -1,49 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/tendencia.h"
+#include "tendencia.h"
+#include "transformacao.h"
 
-//As 3 primeiras funções são cópias provisórias pra testes
-
-static double* organizar(double *dataset, int tamanho) {
-  for (int i = 1; i < tamanho; i++){
-    int n = 0;
-    while ((i-n-1) >= 0 && dataset[i-n] < dataset[i-n-1]){
-      double tmp = dataset[i-n-1];
-      dataset[i-n-1] = dataset[i-n];
-      dataset[i-n] = tmp;
-      n++;
-    }
-  }
-  return dataset;
-}
-
-static double* copia_dataset(double *dataset, int tamanho) {
-    if (dataset == NULL || tamanho <= 0) {
-        printf("Erro: dataset vazio ou inválido.\n");
-        exit(1);
-    }
-
-    double *copia = malloc(tamanho * sizeof *dataset);
-    if (copia == NULL) {
-        printf("Erro ao inicializar o vetor dinâmico da cópia do array");
-        return dataset;
-    }
-
-    for (int i = 0; i < tamanho; i++) {
-        copia[i] = dataset[i];
-    }
-
-    return copia;
-}
-
-static int quase_igual(double a, double b) {
+int quase_igual(double a, double b) {
     double d = a - b;
     if (d < 0) d = -d;
     //Diferença tolerada
     return d < 1e-9;  
 }
 
-double media(double *dataset, int tamanho) {
+double media(const double *dataset, int tamanho) {
     //tenho que ajustar o retorno de erro
     if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
@@ -69,8 +36,8 @@ double mediana(double *dataset, int tamanho) {
     }
 
     else {
-        double *copia = copia_dataset(dataset, tamanho);
-        copia = organizar(copia, tamanho);
+        double *copia = organizar(dataset, tamanho);
+        if (copia == NULL) exit(1);
 
         int i = (tamanho/2);
         double mediana;
@@ -128,8 +95,8 @@ double* moda(double *dataset, int tamanho, int *apont_qtd_modas) {
         exit(1);
     }  
 
-    double *copia = copia_dataset(dataset, tamanho);
-    copia = organizar(copia, tamanho);
+    double *copia = organizar(dataset, tamanho);
+    if (copia == NULL) exit(1);
 
     int maior_freq = 1, freq_atual = 1, qtd_modas = 0;
 

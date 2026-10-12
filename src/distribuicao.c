@@ -7,8 +7,8 @@ int fatorial(int n){
   int fator = 1; for (; n > 0; n--) fator *= n; return fator;
 }
 
-double elevado(int n, int ex){
-  int ele = 1; for (int i = 0; i < ex; i++) ele *= n; return ele;
+double elevado(double n, int ex){
+  double ele = 1.0; for (int i = 0; i < ex; i++) ele *= n; return ele;
 }
 
 double combinacao(int n, int k){

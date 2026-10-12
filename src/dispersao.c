@@ -17,7 +17,6 @@ double raiz_quadrada(double num) {
 
     double palpite = num / 2.0;
     double margem_de_erro = 0.000001; 
-    double diferenca;
 
     while (valor_absoluto((palpite * palpite) - num) > margem_de_erro) {
         palpite = 0.5 * (palpite + (num / palpite));
@@ -26,7 +25,7 @@ double raiz_quadrada(double num) {
     return palpite;
 }
 
-double variancia(double* dataset, int tamanho) {
+double variancia(const double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
@@ -42,7 +41,7 @@ double variancia(double* dataset, int tamanho) {
     return (var / tamanho);
 }
 
-double desvio_padrao(double* dataset, int tamanho) {
+double desvio_padrao(const double* dataset, int tamanho) {
     
     if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
@@ -53,7 +52,7 @@ double desvio_padrao(double* dataset, int tamanho) {
     return raiz_quadrada(var);
 }
 
-double amplitude(double* dataset, int tamanho) {
+double amplitude(const double* dataset, int tamanho) {
 
     if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
@@ -77,7 +76,7 @@ double amplitude(double* dataset, int tamanho) {
 
 // Caso a média seja diferente de 0 calcula o coeficiente de variação
 // caso contrário retorna -1 
-double coef_variacao(double* dataset, int tamanho) {
+double coef_variacao(const double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
         printf("Erro: dataset vazio ou inválido.\n");
         exit(1);
