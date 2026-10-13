@@ -7,6 +7,7 @@
 #define MAX_VALORES 64
 #define NUM_PERCENTIS 5
 
+// informações para testar as funções de transformação
 typedef struct {
     const char *arquivo;
     double organizado[MAX_VALORES];
@@ -22,6 +23,7 @@ typedef struct {
 // Porcentagens testadas em todos os casos (cobre os extremos 0 e 100)
 static const double Porcentagens[NUM_PERCENTIS] = {0, 25, 50, 75, 100};
 
+// todas as informações acerca de cada arquivo de teste e seus resultados esperados
 static Caso casos[] = {
     {"tests/data/transformacoes/desorganizado.txt",
      {0, 1, 2, 5, 6, 7, 10},
@@ -51,6 +53,7 @@ static Caso casos[] = {
 
 #define NUM_CASOS ((int) (sizeof(casos)/sizeof(casos[0])))
 
+// preenche o dataset com as informações dos arquivos
 static void preencher_dataset(void) {
     int tamanho;
     for (int i = 0; i < NUM_CASOS; i++) {
@@ -59,11 +62,13 @@ static void preencher_dataset(void) {
     }
 }
 
+// libera o dataset passado
 static void liberar_dataset(void) {
     for (int i = 0; i < NUM_CASOS; i++)
         liberar_dados(casos[i].dataset);
 }
 
+// testa a função de organizar
 static void teste_organizar(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         printf("  [%s]\n", casos[i].arquivo);
@@ -82,6 +87,7 @@ static void teste_organizar_invalido(void) {
     ASSERT_EQ_INT(1, organizar(NULL, 3) == NULL);
 }
 
+// testa a função de normalizar
 static void teste_normalizar(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         printf("  [%s]\n", casos[i].arquivo);
@@ -93,6 +99,7 @@ static void teste_normalizar(void) {
     }
 }
 
+// testa a função de padronizar
 static void teste_padronizar(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         printf("  [%s]\n", casos[i].arquivo);
@@ -105,6 +112,7 @@ static void teste_padronizar(void) {
 }
 
 // Valores todos iguais: normalizar e padronizar devem retornar NULL
+// testa todas as funções para valores constantes
 static void teste_valores_constantes(void) {
     const char *arquivo = "tests/data/transformacoes/constantes.txt";
     printf("  [%s]\n", arquivo);
@@ -115,6 +123,7 @@ static void teste_valores_constantes(void) {
     liberar_dados(data);
 }
 
+// testa a função de percentil
 static void teste_percentil(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         for (int k = 0; k < NUM_PERCENTIS; k++) {
@@ -134,6 +143,7 @@ static void teste_percentil_invalido(void) {
     ASSERT_EQ_INT(1, percentil(casos[0].dataset, 0, 50.0, &obtido));
 }
 
+// testa a função de remoção de outliers
 static void teste_filtro_outliers(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         printf("  [%s]\n", casos[i].arquivo);
@@ -147,6 +157,7 @@ static void teste_filtro_outliers(void) {
     }
 }
 
+// chama todos os testes (chamado pelo make test)
 int main(void) {
     preencher_dataset();
     RUN_TESTE(teste_organizar);
