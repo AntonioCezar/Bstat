@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "tendencia.h"
-#include "transformacao.h"
+#include "../include/tendencia.h"
+#include "../include/transformacao.h"
 
 int quase_igual(double a, double b) {
     double d = a - b;

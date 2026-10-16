@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "transformacao.h"
-#include "dispersao.h"
-#include "tendencia.h"
-#include "error.h"
+#include "../include/transformacao.h"
+#include "../include/dispersao.h"
+#include "../include/tendencia.h"
+#include "../errors/error.h"
 
 // copia o vetor do parametro 1 para o vetor do parametro 2 (passar para utils .c)
 void copiar_vetor(const double *dataset, double *copia, int tamanho){

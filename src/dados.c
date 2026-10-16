@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "dados.h"
+#include "../include/dados.h"
+#include "../errors/error.h"
 
 void mudtamvet(double **vetor,int novotamanho) {//mudtamvet recebe a memória de onde ta o ponteiro de dados
             double *temp = realloc(*vetor, (novotamanho) * sizeof **vetor);
