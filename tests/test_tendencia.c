@@ -1,8 +1,8 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
 #include "minunit.h"
-#include "tendencia.h"
-#include "dados.h"
+#include "../include/tendencia.h"
+#include "../include/dados.h"
 
 #define MAX_MODAS 64
 
@@ -29,11 +29,8 @@ static Caso casos[] = {
 
 //Preenche o campo dataset dos objetos
 static void preencher_dataset(void) {
-    int tamanho;
     for (int i = 0; i < NUM_CASOS; i++) {
-        //Por enquanto as funções do módulo dados não funcionam
-        casos[i].dataset = coletar_dados(casos[i].arquivo, &tamanho);
-        casos[i].tamanho = tamanho;
+        casos[i].dataset = coletar_dados(casos[i].arquivo, &(casos[i].tamanho));
     }
 }
 
@@ -63,10 +60,10 @@ static void teste_mediana(void) {
 static void teste_moda(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         printf("  [%s]\n", casos[i].arquivo);
-        //Armazena a quantidade de valores do array moda_obtida
+        //Armazena a tamanho de valores do array moda_obtida
         int qtd;
         double *moda_obtida = moda(casos[i].dataset, casos[i].tamanho, &qtd);
-        //Verifico se a moda esperada e a moda obtida têm a mesma quantidade de valores
+        //Verifico se a moda esperada e a moda obtida têm a mesma tamanho de valores
         ASSERT_EQ_INT(casos[i].qtd_modas, qtd);
         if (qtd == casos[i].qtd_modas) //Evita ler fora do array
             //Aqui eu comparo moda esperada com moda obtida
