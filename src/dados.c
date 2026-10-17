@@ -15,6 +15,11 @@ void mudtamvet(double **vetor,int novotamanho) {//mudtamvet recebe a memória de
 }
 
 double* novovet(int tamanho){
+   if (tamanho <= 0) { 
+        processar_erro(1, "Erro: tamanho inválido para inicializar vetor dinâmico");
+        printf("Erro: tamanho inválido para inicializar vetor dinâmico\n");
+        return NULL;
+    }
     double *vetor = malloc(tamanho * sizeof *vetor);
     if (vetor==NULL){
         processar_erro(1, "Erro ao inicializar o vetor dinâmico ");
