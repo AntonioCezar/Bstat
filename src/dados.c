@@ -22,9 +22,9 @@ double* novovet(int tamanho){
     }
     double *vetor = malloc(tamanho * sizeof *vetor);
     if (vetor==NULL){
-        processar_erro(1, "Erro ao inicializar o vetor dinâmico ");
+        processar_erro(1, "Erro ao inicializar o vetor dinâmico");
         printf("Erro ao inicializar o vetor dinâmico\n");
-        return NULL;;
+        return NULL;
     }
     return vetor;
 }
@@ -44,7 +44,7 @@ double* coletar_dados(const char *nomedoarquivo, int *quantidade) { //quantidade
     if (f == NULL) { // ve se deu erro
         processar_erro(1, "Erro ao abrir o arquivo.");
         printf("Erro ao abrir o arquivo.\n");
-        return NULL;;
+        return NULL;
     }
     double *dados = NULL;
     double a;
