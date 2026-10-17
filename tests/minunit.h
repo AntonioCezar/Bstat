@@ -4,7 +4,7 @@
 #define COR_RESET    "\033[0m"
 #include <stdio.h>
 #include <string.h>
-#include "tendencia.h"
+#include "../include/tendencia.h"
 
 static int testes_run = 0, falhas = 0;
 

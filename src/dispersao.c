@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "distribuicao.h"
-#include "dispersao.h"
-#include "tendencia.h"
+#include "../include/distribuicao.h"
+#include "../include/dispersao.h"
+#include "../include/tendencia.h"
 
 double valor_absoluto(double num) {
     if (num < 0) return -num;
