@@ -14,15 +14,15 @@ lib/libBstatStatic.a: $(OBJ)
 	ar rcs $@ $^
 
 lib/libBstatDinamic.so: $(OBJ)
-	$(CC) -shared $^ -o $@
+	$(CC) -shared $^ -o $@ -lm
 
 # -----
 
 bin/bstat_static: $(MAIN)
-	$(CC) $(MAIN) -Llib -lBstatStatic -o $@
+	$(CC) $(MAIN) -Llib -lBstatStatic -o $@ -lm
 
 bin/bstat_dinamic: $(MAIN)
-	$(CC) $(MAIN) -Llib -lBstatDinamic -Wl,-rpath,'$$ORIGIN/../lib' -o $@
+	$(CC) $(MAIN) -Llib -lBstatDinamic -Wl,-rpath,'$$ORIGIN/../lib' -o $@ -lm
 
 # -----
 
@@ -36,7 +36,7 @@ build/main.o: app/main.c $(HEADERS) | build
 	$(CC) $(CFLAGS) -c $< -o $@
 
 build/test_%: tests/test_%.c $(OBJ) | build
-	$(CC) $(TEST_FLAGS) $^ -o $@
+	$(CC) $(TEST_FLAGS) $^ -o $@ -lm
 
 # -----
 
@@ -63,11 +63,11 @@ PREFIX ?= /usr/local
 
 install: all bin/bstat_static bin/bstat_dinamic
 	install -d $(DESTDIR)$(PREFIX)/lib
-	install -d $(DESTDIR)$(PREFIX)/include/bstat
+	install -d $(DESTDIR)$(PREFIX)/include/Bstat
 	install -d $(DESTDIR)$(PREFIX)/bin
 	install -m 644 lib/libBstatStatic.a $(DESTDIR)$(PREFIX)/lib/
 	install -m 755 lib/libBstatDinamic.so $(DESTDIR)$(PREFIX)/lib/
-	install -m 644 include/*.h $(DESTDIR)$(PREFIX)/include/bstat/
+	install -m 644 include/*.h $(DESTDIR)$(PREFIX)/include/Bstat/
 	install -m 755 bin/bstat_dinamic $(DESTDIR)$(PREFIX)/bin/
 
 .PHONY: all clean run install uninstall test

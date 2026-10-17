@@ -7,7 +7,7 @@ int quase_igual(double a, double b) {
     double d = a - b;
     if (d < 0) d = -d;
     //Diferença tolerada
-    return d < 1e-9;
+    return d < 1e-6;
 }
 
 double media(const double *dataset, int tamanho) {

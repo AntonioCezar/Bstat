@@ -45,9 +45,6 @@ static int testes_run = 0, falhas = 0;
     }                                                                   \
 } while (0)                     
     
-
-
-
 #define RUN_TESTE(teste) do { printf(COR_AMARELO "*** %s ***" COR_RESET "\n", #teste); teste(); } while (0)   
 
 #define RESUMO_TESTE() do {                                             \

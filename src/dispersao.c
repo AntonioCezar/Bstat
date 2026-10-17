@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/distribuicao.h"
-#include "../include/dispersao.h"
-#include "../include/tendencia.h"
+#include <math.h>
+#include "dispersao.h"
+#include "distribuicao.h"
+#include "tendencia.h"
+#include "error.h"
 
 double valor_absoluto(double num) {
     if (num < 0) return -num;
@@ -17,6 +19,7 @@ double raiz_quadrada(double num) {
 
     double palpite = num / 2.0;
     double margem_de_erro = 0.000001; 
+    double diferença;
 
     while (valor_absoluto((palpite * palpite) - num) > margem_de_erro) {
         palpite = 0.5 * (palpite + (num / palpite));
@@ -27,15 +30,16 @@ double raiz_quadrada(double num) {
 
 double variancia(const double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
+        processar_erro(1, "Dataset vazio ou invalido");
         printf("Erro: dataset vazio ou inválido.\n");
-        exit(1);
+        return NAN;
     }
 
     double med = media(dataset, tamanho);
 
     double var = 0;
     for (int i = 0; i < tamanho; i++) {
-        var += elevado(med - dataset[i], 2);
+        var += pow(med - dataset[i], 2);
     }
 
     return (var / tamanho);
@@ -44,8 +48,9 @@ double variancia(const double* dataset, int tamanho) {
 double desvio_padrao(const double* dataset, int tamanho) {
     
     if (dataset == NULL || tamanho <= 0) {
+        processar_erro(1, "Dataset vazio ou inválido");
         printf("Erro: dataset vazio ou inválido.\n");
-        exit(1);
+        return NAN;
     }
     
     double var = variancia(dataset, tamanho);
@@ -55,8 +60,9 @@ double desvio_padrao(const double* dataset, int tamanho) {
 double amplitude(const double* dataset, int tamanho) {
 
     if (dataset == NULL || tamanho <= 0) {
+        processar_erro(1, "Dataset vazio ou inválido");
         printf("Erro: dataset vazio ou inválido.\n");
-        exit(1);
+        return NAN;
     }
 
     double max = dataset[0];
@@ -78,14 +84,16 @@ double amplitude(const double* dataset, int tamanho) {
 // caso contrário retorna -1 
 double coef_variacao(const double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
+        processar_erro(1, "Dataset vazio ou inválido");
         printf("Erro: dataset vazio ou inválido.\n");
-        exit(1);
+        return NAN;
     }
 
     double med = media(dataset, tamanho);
     if (med == 0) {
-        printf("Coeficiente de Variação não pode ser calculado, pois a média é igual a zero");
-        return -1;
+        processar_erro(1, "coeficiente de variação não pode ser calculado, pois a média é igual a zero");
+        printf("Erro: coeficiente de variação não pode ser calculado, pois a média é igual a zero\n");
+        return NAN;
     }
     double desvio = desvio_padrao(dataset, tamanho);
 
