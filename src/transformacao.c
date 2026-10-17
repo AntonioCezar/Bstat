@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "transformacao.h"
 #include "dispersao.h"
 #include "tendencia.h"
 #include "error.h"
 
-// copia o vetor do parametro 1 para o vetor do parametro 2 (passar para utils .c)
-void copiar_vetor(const double *dataset, double *copia, int tamanho){
+// copia o vetor do parametro 1 para o vetor do parametro 2
+static void copiar_vetor(const double *dataset, double *copia, int tamanho){
   for (int i = 0; i < tamanho; i++) copia[i] = dataset[i];
 }
 
@@ -111,46 +112,49 @@ double* padronizar(const double *dataset, int tamanho){
 }
 
 // recebe um percentil do conjunto de dados e retorna o valor que estaria naquele percentil
-int percentil(const double *dataset, int tamanho, double porcentagem, double *resultado){
+double percentil(const double *dataset, int tamanho, double porcentagem){
   if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para percentil\n");
     printf("Dataset vazio passado para percentil\n");
-    return 1;
+    return NAN;
   }
 
   // checa se passou a porcentagem correta
   if (porcentagem > 100.0 || porcentagem < 0.0){
     processar_erro(1, "Porcentagem invalida, o usuário digitou uma porcentagem que não está entre 0 e 100");
     printf("Porcentagem invalida, a porcentagem deve estar entre 0 e 100\n");
-    return 1;
+    return NAN;
   }
 
   double *organizado = organizar(dataset, tamanho);
-  if (organizado == NULL) return 1;
+  if (organizado == NULL) return NAN;
   double index = (porcentagem/100.0) * (tamanho-1);
   int chao = (int)index;
   int teto = (chao + 1 < tamanho) ? chao + 1 : chao;
 
   // faz as contas para devolver o valor equivalente a aquele percentil
   double fraq = index - chao; 
-  *resultado = ((organizado[teto] - organizado[chao]) * fraq) + organizado[chao];
+  double resultado = ((organizado[teto] - organizado[chao]) * fraq) + organizado[chao];
   free(organizado);
-  return 0;
+  return resultado;
 }
 
 // remove do dataset os valores extremos além dos limites superior e inferior (como em um box-plot)
 double* filtro_outliers(const double *dataset, int tamanho, int *novo_tamanho){
+  if (novo_tamanho == NULL) return NULL;
+  *novo_tamanho = -1; // caso retorne NULL deixa o novo tamanho assim, indicando erro
+  
   if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para outliers\n");
     printf("Dataset vazio passado para outliers\n");
     return NULL;
   }
   
-  *novo_tamanho = -1; // caso retorne NULL deixa o novo tamanho assim, indicando erro
   // faz as contas básicas necessárias para detectar os outliers
 
-  double q3, q1;
-  if (percentil(dataset, tamanho, 75.0, &q3) == 1 || percentil(dataset, tamanho, 25.0, &q1) == 1) return NULL;
+  double q3 = percentil(dataset, tamanho, 75.0);
+  double q1 = percentil(dataset, tamanho, 25.0);
+  if (isnan(q3) || isnan(q1)) return NULL;
   double intervalo_J = q3 - q1;
   double min_lim = q1 - (1.5 * intervalo_J);
   double max_lim = q3 + (1.5 * intervalo_J);

@@ -100,12 +100,12 @@ double* padronizar(const double *dataset, int tamanho);
  * @param[in]  dataset     Vetor de valores.
  * @param[in]  tamanho     Quantidade de elementos do vetor.
  * @param[in]  porcentagem Percentil desejado, entre 0 e 100.
- * @param[out] resultado   Ponteiro onde o valor do percentil será gravado.
- *                         Só é modificado em caso de sucesso.
  *
- * @retval 0 Sucesso; @p resultado contém o valor do percentil.
- * @retval 1 Erro: dataset vazio, porcentagem fora do intervalo [0, 100]
- *           ou falha ao organizar o vetor.
+ * @return O valor localizado no percentil passado no parâmetro porcentagem.
+ *         retorna NAN se:
+ *         - Dataset estiver vazio;
+ *         - Porcentagem estiver fora do intervalo [0, 100];
+ *         - Falha ao organizar o vetor.
  *
  * @note Em caso de erro, a função registra a mensagem via processar_erro()
  *       e também a imprime na saída padrão.
@@ -113,9 +113,8 @@ double* padronizar(const double *dataset, int tamanho);
  * @see organizar()
  */
 
-// Grava em *resultado o valor do percentil (0 a 100).
-// Retorna 0 em sucesso e 1 em erro.
-int percentil(const double *dataset, int tamanho, double porcentagem, double *resultado);
+// retorna o valor naquele percentil
+double percentil(const double *dataset, int tamanho, double porcentagem);
 
 /**
  * @brief Remove os outliers de um dataset usando o critério do box-plot.

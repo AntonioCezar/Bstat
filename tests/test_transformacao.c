@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "minunit.h"
 #include "transformacao.h"
 #include "dados.h"
@@ -128,8 +129,7 @@ static void teste_percentil(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         for (int k = 0; k < NUM_PERCENTIS; k++) {
             printf("  [%s] p=%.0f\n", casos[i].arquivo, Porcentagens[k]);
-            double obtido = 0;
-            ASSERT_EQ_INT(0, percentil(casos[i].dataset, casos[i].tamanho, Porcentagens[k], &obtido));
+            double obtido = percentil(casos[i].dataset, casos[i].tamanho, Porcentagens[k]);
             ASSERT_EQ_DOUBLE(casos[i].percentis[k], obtido);
         }
     }
@@ -137,10 +137,9 @@ static void teste_percentil(void) {
 
 // testa casos de erro de percentil
 static void teste_percentil_invalido(void) {
-    double obtido;
-    ASSERT_EQ_INT(1, percentil(casos[0].dataset, casos[0].tamanho, 150.0, &obtido));
-    ASSERT_EQ_INT(1, percentil(casos[0].dataset, casos[0].tamanho, -5.0, &obtido));
-    ASSERT_EQ_INT(1, percentil(casos[0].dataset, 0, 50.0, &obtido));
+    ASSERT_EQ_INT(1, isnan(percentil(casos[0].dataset, casos[0].tamanho, 150.0)));
+    ASSERT_EQ_INT(1, isnan(percentil(casos[0].dataset, casos[0].tamanho, -5.0)));
+    ASSERT_EQ_INT(1, isnan(percentil(casos[0].dataset, 0, 50.0)));
 }
 
 // testa a função de remoção de outliers
