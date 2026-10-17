@@ -25,7 +25,7 @@ double reais[] = {13.13131333,9,1,32732873,1232.4454,67.67,0.0001,93102.839012,3
 
 int numerodecasos = 4;
 
-void teste_dados(){
+void teste(){
     for (int i = 0; i < numerodecasos; i++)
     {
         int quantidade = 0;
@@ -38,6 +38,6 @@ void teste_dados(){
 }
 
 int main(void) {
-    RUN_TESTE(teste_dados);
+        RUN_TESTE(teste);
     RESUMO_TESTE(); //aqui ele retorna 0 se todos os testes forem bem sucedidos
 }
