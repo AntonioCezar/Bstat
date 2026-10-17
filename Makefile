@@ -59,7 +59,18 @@ run: all
 
 # -----
 
-install: bin/bstat_static bin/bstat_dinamic
+PREFIX ?= /usr/local
+
+install: all bin/bstat_static bin/bstat_dinamic
+	install -d $(DESTDIR)$(PREFIX)/lib
+	install -d $(DESTDIR)$(PREFIX)/include/bstat
+	install -d $(DESTDIR)$(PREFIX)/bin
+	install -m 644 lib/libBstatStatic.a $(DESTDIR)$(PREFIX)/lib/
+	install -m 755 lib/libBstatDinamic.so $(DESTDIR)$(PREFIX)/lib/
+	install -m 644 include/*.h $(DESTDIR)$(PREFIX)/include/bstat/
+	install -m 755 bin/bstat_dinamic $(DESTDIR)$(PREFIX)/bin/
+
+.PHONY: all clean run install uninstall test
 
 # -----
 
