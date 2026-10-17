@@ -32,7 +32,7 @@ double variancia(double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
         processar_erro(1, "Dataset vazio ou invalido");
         printf("Erro: dataset vazio ou inválido.\n");
-        return 0;
+        return NAN;
     }
 
     double med = media(dataset, tamanho);
@@ -50,7 +50,7 @@ double desvio_padrao(double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
         processar_erro(1, "Dataset vazio ou inválido");
         printf("Erro: dataset vazio ou inválido.\n");
-        return 0;
+        return NAN;
     }
     
     double var = variancia(dataset, tamanho);
@@ -62,7 +62,7 @@ double amplitude(double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
         processar_erro(1, "Dataset vazio ou inválido");
         printf("Erro: dataset vazio ou inválido.\n");
-        return 0;
+        return NAN;
     }
 
     double max = dataset[0];
@@ -86,14 +86,14 @@ double coef_variacao(double* dataset, int tamanho) {
     if (dataset == NULL || tamanho <= 0) {
         processar_erro(1, "Dataset vazio ou inválido");
         printf("Erro: dataset vazio ou inválido.\n");
-        return 0;
+        return NAN;
     }
 
     double med = media(dataset, tamanho);
     if (med == 0) {
         processar_erro(1, "coeficiente de variação não pode ser calculado, pois a média é igual a zero");
         printf("Erro: coeficiente de variação não pode ser calculado, pois a média é igual a zero\n");
-        return -1;
+        return NAN;
     }
     double desvio = desvio_padrao(dataset, tamanho);
 
