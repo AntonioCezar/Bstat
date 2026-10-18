@@ -39,7 +39,7 @@
  */
 
 // Retorna uma cópia do vetor ordenada em ordem crescente.
-double* organizar(const double *dataset, int tamanho);
+double* organizar(double *dataset, int tamanho);
 
 /**
  * @brief Normaliza os valores de um dataset para a escala de 0 a 1.
@@ -62,7 +62,7 @@ double* organizar(const double *dataset, int tamanho);
  */
 
 // Normaliza os valores para escala de [0, 1]. Retorna NULL se todos forem iguais.
-double* normalizar(const double *dataset, int tamanho);
+double* normalizar(double *dataset, int tamanho);
 
 /**
  * @brief Padroniza os valores de um dataset.
@@ -90,7 +90,7 @@ double* normalizar(const double *dataset, int tamanho);
  */
 
 // Padroniza para média 0 e desvio padrão 1. Retorna NULL se todos forem iguais.
-double* padronizar(const double *dataset, int tamanho);
+double* padronizar(double *dataset, int tamanho);
 
 /**
  * @brief Calcula o valor correspondente a um percentil do dataset.
@@ -114,15 +114,17 @@ double* padronizar(const double *dataset, int tamanho);
  */
 
 // retorna o valor naquele percentil
-double percentil(const double *dataset, int tamanho, double porcentagem);
+double percentil(double *dataset, int tamanho, double porcentagem);
 
 /**
  * @brief Remove os outliers de um dataset usando o critério do box-plot.
  *
  * Calcula o primeiro quartil (Q1) e o terceiro quartil (Q3) com percentil()
  * e o intervalo interquartil. São mantidos apenas os valores dentro dos limites:
- * - limite inferior: @f$ Q1 - 1{,}5 \cdot IQR @f$
- * - limite superior: @f$ Q3 + 1{,}5 \cdot IQR @f$
+ * - limite inferior: Q1 - 1,5 J
+ * - limite superior: Q3 + 1,5 J
+ * 
+ * Onde J é o intervalo inter-quartil (q3 - q1).
  *
  * @param[in]  dataset       Vetor de valores a ser filtrado.
  * @param[in]  tamanho       Quantidade de elementos do vetor.
@@ -147,8 +149,8 @@ double percentil(const double *dataset, int tamanho, double porcentagem);
  * @see percentil()
  */
 
-// Remove outliers (1.5 * quartil 3 - quartil 1) e salva em *novo_tamanho a quantidade que sobrou.
+// Remove outliers (1.5 * (quartil 3 - quartil 1)) e salva em *novo_tamanho a quantidade que sobrou.
 // Em erro retorna NULL e *novo_tamanho = -1.
-double* filtro_outliers(const double *dataset, int tamanho, int *novo_tamanho);
+double* filtro_outliers(double *dataset, int tamanho, int *novo_tamanho);
 
 #endif

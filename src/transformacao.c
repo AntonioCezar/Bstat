@@ -7,12 +7,12 @@
 #include "error.h"
 
 // copia o vetor do parametro 1 para o vetor do parametro 2
-static void copiar_vetor(const double *dataset, double *copia, int tamanho){
+static void copiar_vetor(double *dataset, double *copia, int tamanho){
   for (int i = 0; i < tamanho; i++) copia[i] = dataset[i];
 }
 
 // faz um insertion sort para organizar os valores em ordem crescente
-double* organizar(const double *dataset, int tamanho){
+double* organizar(double *dataset, int tamanho){
   if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para organizar\n");
     printf("Dataset vazio passado para organizar\n");
@@ -42,7 +42,7 @@ double* organizar(const double *dataset, int tamanho){
 }
 
 // normaliza os valores em uma escala de 0 a 1
-double* normalizar(const double *dataset, int tamanho){
+double* normalizar(double *dataset, int tamanho){
   if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para normalizar\n");
     printf("Dataset vazio passado para normalizar\n");
@@ -79,7 +79,7 @@ double* normalizar(const double *dataset, int tamanho){
 }
 
 // padroniza os valores para que o desvio padrão dê 1 e a média 0
-double* padronizar(const double *dataset, int tamanho){
+double* padronizar(double *dataset, int tamanho){
   if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para padronizar\n");
     printf("Dataset vazio passado para padronizar\n");
@@ -112,7 +112,7 @@ double* padronizar(const double *dataset, int tamanho){
 }
 
 // recebe um percentil do conjunto de dados e retorna o valor que estaria naquele percentil
-double percentil(const double *dataset, int tamanho, double porcentagem){
+double percentil(double *dataset, int tamanho, double porcentagem){
   if (dataset == NULL || tamanho <= 0){
     processar_erro(1, "Dataset vazio passado para percentil\n");
     printf("Dataset vazio passado para percentil\n");
@@ -140,7 +140,7 @@ double percentil(const double *dataset, int tamanho, double porcentagem){
 }
 
 // remove do dataset os valores extremos além dos limites superior e inferior (como em um box-plot)
-double* filtro_outliers(const double *dataset, int tamanho, int *novo_tamanho){
+double* filtro_outliers(double *dataset, int tamanho, int *novo_tamanho){
   if (novo_tamanho == NULL) return NULL;
   *novo_tamanho = -1; // caso retorne NULL deixa o novo tamanho assim, indicando erro
   

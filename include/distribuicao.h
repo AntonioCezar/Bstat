@@ -16,7 +16,7 @@
  *
  * @param[in] n Número cujo fatorial será calculado. Para @p n menor ou igual a zero, o resultado é 1.
  *
- * @return O valor de @f$ n! @f$.
+ * @return O valor de n!.
  *
  * @warning O resultado é um @c long, Acima desse limite ocorre overflow.
  */
@@ -29,7 +29,7 @@ long fatorial(long n);
  * @param[in] n  Base.
  * @param[in] ex Expoente inteiro. Para @p ex menor ou igual a zero, o resultado é 1.0 (expoentes negativos não são suportados).
  *
- * @return O valor de @f$ n^{ex} @f$.
+ * @return O valor de n elevado a ex.
  */
 
 double elevado(double n, int ex);
@@ -98,11 +98,11 @@ double hipergeometrica(int N, int R, int n, int k);
  * @brief Calcula a probabilidade da distribuição de Poisson.
  *
  * @param[in] k Número de ocorrências desejado.
- * @param[in] lambda Taxa média de ocorrências (@f$\lambda@f$).
+ * @param[in] lambda Taxa média de ocorrências lambda.
  *
  * @return A probabilidade de ocorrerem exatamente @p k eventos.
  *
- * @note @p lambda é um @c int porque o cálculo de @f$ e^{\lambda} @f$ usa elevado(), que só aceita expoentes inteiros.
+ * @note @p lambda é um @c int porque o cálculo de e elevado a lambda usa elevado(), que só aceita expoentes inteiros.
  * 
  * @warning Usa fatorial() internamente, então @p k herda o limite de overflow do fatorial().
  *

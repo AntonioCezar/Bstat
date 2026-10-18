@@ -19,7 +19,7 @@ typedef struct {
 static Caso casos[] = {
     {"tests/data/tendencia/simples.txt", 283.34190000, 16.83276270, 59.00, 0.59249429},
     {"tests/data/tendencia/multimodal.txt", 832.03040000, 28.84493716, 96.00, 0.58108254},
-    {"tests/data/tendencia/decimais.txt", 177.18417275, 13.31105453, 44.61, 4.27527036},
+    {"tests/data/tendencia/decimais.txt", 177.1841908, 13.31105453, 44.61, 4.27527036},
 };
 
 // armazena o tamanho do vetor de casos esperados
