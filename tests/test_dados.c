@@ -28,6 +28,8 @@ int numerodecasos = 4;
 void teste_dados(){
     for (int i = 0; i < numerodecasos; i++)
     {
+        printf("tesetando o arquivo  [%s]\n", casos[i].arquivo);
+        if(i == 3)  printf("como tem char no arquivo txt, ele deve retornar erro");
         int quantidade = 0;
         double* dataset = coletar_dados(casos[i].arquivo, &quantidade);
         ASSERT_EQ_INT(casos[i].tamanho, quantidade);
@@ -37,7 +39,49 @@ void teste_dados(){
     
 }
 
+void teste_liberar_vetor(){
+    printf(COR_AMARELO "*** teste da função liberar_dados ***" COR_RESET "\n");
+    double* teste0 = NULL;
+    teste0 = novovet(5);
+    for (int i = 0; i < 5; i++)
+    {
+        teste0[i]=i;
+    }
+    
+    printf( "Elementos do vetor antes de liberar os dados:\n");
+    imprimir_dados(teste0,5);
+    liberar_dados(teste0);
+    printf( "Vetor liberado!\n");
+    printf( "Teste com vetor nulo\n");
+    double* teste1 = NULL;
+    liberar_dados(teste1);
+    printf( "Vetor liberado!\n");
+    printf("Testes da função finalizados!\n");
+}
+
+void teste_validar_vetor(){
+    printf(COR_AMARELO "*** teste da função validarvetor ***" COR_RESET "\n");
+    double* teste0 = NULL;
+    teste0 = novovet(5);
+    for (int i = 0; i < 5; i++)
+    {
+        teste0[i]=i;
+    }
+    double* teste1 = NULL;
+    if (validarvetor(teste0)!= NULL) printf("Teste com vetor não nulo bem sucedido\n");
+    else printf("O teste falhou\n");
+    printf("Teste com vetor nulo:\n");
+    if (validarvetor(teste1)== NULL) printf("Teste com vetor nulo bem sucedido (não válido)!\n");
+    else printf("O teste falhou\n");
+    liberar_dados(teste0);
+    printf("Testes da função finalizados!\n");
+}
+
+
 int main(void) {
+    teste_liberar_vetor();
+    teste_validar_vetor();
         RUN_TESTE(teste_dados);
     RESUMO_TESTE(); //aqui ele retorna 0 se todos os testes forem bem sucedidos
+
 }

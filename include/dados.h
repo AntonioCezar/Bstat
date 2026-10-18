@@ -104,5 +104,16 @@ void pedirnomedoarquivo(char *nomedoarquivo);
  */
 void liberar_dados(double *dados);
 
+/**
+ * @brief Imprime os dados armazenados em um vetor.
+ *
+ * Percorre o vetor e imprime cada elemento no formato de ponto flutuante,
+ * com uma quebra de linha após cada valor.
+ *
+ * @param dados Ponteiro para o vetor de valores do tipo double.
+ * @param tamanho Quantidade de elementos do vetor.
+ */
+void imprimir_dados(double *dados, int tamanho);
+
 #endif
 
