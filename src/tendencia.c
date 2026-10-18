@@ -22,7 +22,7 @@ static int validar_tamanho(int tamanho) {
     return 1;
 }
 
-double media(double *dataset, int tamanho) {
+double media(const double *dataset, int tamanho) {
     if(!validarvetor(dataset) || !validar_tamanho(tamanho))
         return NAN;
 
@@ -36,7 +36,7 @@ double media(double *dataset, int tamanho) {
     return media;
 }
 
-double mediana(double *dataset, int tamanho) {
+double mediana(const double *dataset, int tamanho) {
     if (!validarvetor(dataset) || !validar_tamanho(tamanho)) 
         return NAN;
 
@@ -60,8 +60,12 @@ double mediana(double *dataset, int tamanho) {
 
 static double* pegar_moda(double *copia, int tamanho, int maior_freq, int qtd_modas, int *apont_qtd_modas) {
 
-    double *modas = novovet(tamanho);
-    if (modas == NULL) return NULL;
+    double *modas = novovet(qtd_modas);
+    if (modas == NULL) {
+        processar_erro(1, "Falha ao alocar o vetor de modas");
+        printf("Falha ao alocar o vetor de modas\n");
+        return NULL;
+    }
 
     //Percorre o vetor das modas
     int idx_modas = 0, freq_atual = 1;
@@ -89,12 +93,13 @@ static double* pegar_moda(double *copia, int tamanho, int maior_freq, int qtd_mo
     return modas;
 }
 
-double* moda(double *dataset, int tamanho, int *apont_qtd_modas) {
+double* moda(const double *dataset, int tamanho, int *apont_qtd_modas) {
     if (apont_qtd_modas == NULL) {
         processar_erro(1, "Ponteiro de quantidade de modas inválido"); 
         printf("Ponteiro de quantidade de modas inválido\n");
         return NULL;
     }    
+    *apont_qtd_modas = 0;
 
     if (!validarvetor(dataset) || !validar_tamanho(tamanho)) return NULL;
 
@@ -128,6 +133,12 @@ double* moda(double *dataset, int tamanho, int *apont_qtd_modas) {
         qtd_modas = 1;
     } else if (freq_atual == maior_freq) {
         qtd_modas += 1;
+    }
+
+    //Caso amodal
+    if ((tamanho > 1) && (qtd_modas == tamanho)) {
+        liberar_dados(copia);
+        return NULL;
     }
 
     //Seleciona os valores que mais se repetem
