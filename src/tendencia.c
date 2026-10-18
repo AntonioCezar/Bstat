@@ -15,14 +15,14 @@ int quase_igual(double a, double b) {
 
 static int validar_tamanho(int tamanho) {
     if (tamanho <= 0) {
-        processar_erro(1, "Tamanho inválido para o array");
+        processar_erro(3, "Tamanho inválido para o array");
         printf("Erro: tamanho inválido para o array\n");
         return 0;
     }
     return 1;
 }
 
-double media(const double *dataset, int tamanho) {
+double media(double *dataset, int tamanho) {
     if(!validarvetor(dataset) || !validar_tamanho(tamanho))
         return NAN;
 
@@ -36,7 +36,7 @@ double media(const double *dataset, int tamanho) {
     return media;
 }
 
-double mediana(const double *dataset, int tamanho) {
+double mediana(double *dataset, int tamanho) {
     if (!validarvetor(dataset) || !validar_tamanho(tamanho)) 
         return NAN;
 
@@ -62,8 +62,8 @@ static double* pegar_moda(double *copia, int tamanho, int maior_freq, int qtd_mo
 
     double *modas = novovet(qtd_modas);
     if (modas == NULL) {
-        processar_erro(1, "Falha ao alocar o vetor de modas");
-        printf("Falha ao alocar o vetor de modas\n");
+        processar_erro(3, "Falha ao alocar o vetor de modas");
+        printf("Erro: Falha ao alocar o vetor de modas\n");
         return NULL;
     }
 
@@ -93,10 +93,10 @@ static double* pegar_moda(double *copia, int tamanho, int maior_freq, int qtd_mo
     return modas;
 }
 
-double* moda(const double *dataset, int tamanho, int *apont_qtd_modas) {
+double* moda(double *dataset, int tamanho, int *apont_qtd_modas) {
     if (apont_qtd_modas == NULL) {
-        processar_erro(1, "Ponteiro de quantidade de modas inválido"); 
-        printf("Ponteiro de quantidade de modas inválido\n");
+        processar_erro(3, "Ponteiro de quantidade de modas inválido"); 
+        printf("Erro: Ponteiro de quantidade de modas inválido\n");
         return NULL;
     }    
     *apont_qtd_modas = 0;

@@ -110,7 +110,7 @@ static void teste_somas(void) {
     soma = 0;
     for (int k = 0; k <= 12; k++) soma += poisson(k, 3);
     printf("  [soma poisson lambda=3 (k de 0 a 12)]\n");
-    ASSERT_EQ_DOUBLE(0.9999858689, soma);
+    ASSERT_EQ_DOUBLE(0.9999838508, soma);
 }
 
 // chama todos os testes (chamado pelo make test)

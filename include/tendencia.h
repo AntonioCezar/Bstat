@@ -50,7 +50,7 @@ int quase_igual(double a, double b);
  * @note Em caso de erro, a função registra a mensagem via processar_erro()
  *       e também a imprime na saída padrão.
  */
-double media(const double *dataset, int tamanho);
+double media(double *dataset, int tamanho);
 
 /**
  * @brief Calcula a mediana de um dataset.
@@ -72,7 +72,7 @@ double media(const double *dataset, int tamanho);
  *
  * @see organizar()
  */
-double mediana(const double *dataset, int tamanho);
+double mediana(double *dataset, int tamanho);
 
 /**
  * @brief Encontra a(s) moda(s) de um dataset.
@@ -105,6 +105,6 @@ double mediana(const double *dataset, int tamanho);
  * @see organizar()
  * @see quase_igual()
  */
-double* moda(const double *dataset, int tamanho, int *apont_qtd_modas);
+double* moda(double *dataset, int tamanho, int *apont_qtd_modas);
 
 #endif

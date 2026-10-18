@@ -16,7 +16,7 @@ void mudtamvet(double **vetor,int novotamanho) {//mudtamvet recebe a memória de
 
 double* novovet(int tamanho){
    if (tamanho <= 0) { 
-        processar_erro(1, "Erro: tamanho inválido para inicializar vetor dinâmico");
+        processar_erro(1, "Tamanho inválido para inicializar vetor dinâmico");
         printf("Erro: tamanho inválido para inicializar vetor dinâmico\n");
         return NULL;
     }
@@ -32,7 +32,7 @@ double* novovet(int tamanho){
 double* validarvetor(double *vetor){
     if(vetor == NULL) {
         processar_erro(1, "Vetor não válido");
-        printf("Vetor não válido\n");
+        printf("Erro: Vetor não válido\n");
         return NULL;
     };
     return vetor;
@@ -58,7 +58,7 @@ double* coletar_dados(const char *nomedoarquivo, int *quantidade) { //quantidade
     if (fscanf(f, " %c", &ch)==1) {
         free(dados);
         fclose(f);
-        processar_erro(1, "Erro: O arquivo contém chars.");
+        processar_erro(1, "O arquivo contém chars.");
         printf("Erro: O arquivo contém chars.\n");
         return NULL;
     }

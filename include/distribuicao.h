@@ -4,34 +4,20 @@
  *        (binomial, geométrica, hipergeométrica e Poisson) e das funções
  *        auxiliares de cálculo (fatorial, potência e combinação).
  *
- * @note O número de Euler é aproximado por 2.71828 nos cálculos que o
- *       utilizam, então os resultados têm precisão limitada.
+ * @note A função exponencial e^x é calculada com exp() de math.h, então
+ *       a precisão é a de um double. Em caso de entrada inválida, as funções
+ *       devolvem NAN e registram o erro por processar_erro().
  */
 
 #ifndef DISTRIBUICAO_H
 #define DISTRIBUICAO_H
 
-/**
- * @brief Calcula o fatorial de um número inteiro.
- *
- * @param[in] n Número cujo fatorial será calculado. Para @p n menor ou igual a zero, o resultado é 1.
- *
- * @return O valor de n!.
- *
- * @warning O resultado é um @c long, Acima desse limite ocorre overflow.
- */
-
+// função interna, não terá descrição no doxygen
+// devolve -1 se o parâmetro for negativo
 long fatorial(long n);
 
-/**
- * @brief Calcula um número elevado a um expoente inteiro não negativo.
- *
- * @param[in] n  Base.
- * @param[in] ex Expoente inteiro. Para @p ex menor ou igual a zero, o resultado é 1.0 (expoentes negativos não são suportados).
- *
- * @return O valor de n elevado a ex.
- */
-
+// função interna, não terá descrição no doxygen
+// devolve NAN se o expoente for negativo
 double elevado(double n, int ex);
 
 /**
@@ -40,7 +26,8 @@ double elevado(double n, int ex);
  * @param[in] n Total de elementos.
  * @param[in] k Quantidade de elementos escolhidos.
  *
- * @return O número de combinações.
+ * @return O número de combinações. Devolve 0.0 se @p k for maior que @p n
+ *         e NAN se @p n ou @p k forem negativos.
  *
  * @warning Usa fatorial() internamente, então herda seu limite de overflow.
  *
@@ -57,6 +44,7 @@ double combinacao(int n, int k);
  * @param[in] p Probabilidade de sucesso em cada tentativa, entre 0 e 1.
  *
  * @return A probabilidade de ocorrerem exatamente @p k sucessos em @p n tentativas.
+ *         Devolve NAN se @p n ou @p k forem negativos ou se @p p estiver fora de [0, 1].
  *
  * @see combinacao()
  * @see elevado()
@@ -71,6 +59,7 @@ double binomial(int n, int k, double p);
  * @param[in] p Probabilidade de sucesso em cada tentativa, entre 0 e 1.
  *
  * @return A probabilidade de o primeiro sucesso ocorrer na tentativa @p n.
+ *         Devolve NAN se @p n for menor que 1 ou se @p p estiver fora de [0, 1].
  *
  * @see elevado()
  */
@@ -86,6 +75,9 @@ double geometrica(int n, double p);
  * @param[in] k Quantidade de sucessos desejada na amostra.
  *
  * @return A probabilidade de haver exatamente @p k sucessos na amostra.
+ *         Devolve 0.0 se o resultado for impossível (k maior que n ou R,
+ *         ou mais fracassos na amostra do que existem na população) e NAN se algum
+ *         parâmetro for negativo ou se @p R ou @p n forem maiores que @p N.
  *
  * @warning Usa combinacao() internamente, então herda o limite de overflow.
  *
@@ -101,15 +93,14 @@ double hipergeometrica(int N, int R, int n, int k);
  * @param[in] lambda Taxa média de ocorrências lambda.
  *
  * @return A probabilidade de ocorrerem exatamente @p k eventos.
+ *         Devolve NAN se @p k ou @p lambda forem negativos.
  *
- * @note @p lambda é um @c int porque o cálculo de e elevado a lambda usa elevado(), que só aceita expoentes inteiros.
- * 
  * @warning Usa fatorial() internamente, então @p k herda o limite de overflow do fatorial().
  *
  * @see elevado()
  * @see fatorial()
  */
 
-double poisson(int k, int lambda);
+double poisson(int k, double lambda);
 
 #endif

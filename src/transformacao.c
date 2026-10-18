@@ -14,15 +14,15 @@ static void copiar_vetor(double *dataset, double *copia, int tamanho){
 // faz um insertion sort para organizar os valores em ordem crescente
 double* organizar(double *dataset, int tamanho){
   if (dataset == NULL || tamanho <= 0){
-    processar_erro(1, "Dataset vazio passado para organizar\n");
-    printf("Dataset vazio passado para organizar\n");
+    processar_erro(4, "Dataset vazio passado para organizar");
+    printf("Erro: Dataset vazio passado para organizar\n");
     return NULL;
   }
 
   double *copia = malloc(tamanho * sizeof(double));
 
   if (copia == NULL) {
-    processar_erro(1, "Erro ao inicializar o vetor dinâmico de valores organizados");
+    processar_erro(4, "Erro ao inicializar o vetor dinâmico de valores organizados");
     printf("Erro ao inicializar o vetor dinâmico de valores organizados\n");
     return NULL;
   }
@@ -44,8 +44,8 @@ double* organizar(double *dataset, int tamanho){
 // normaliza os valores em uma escala de 0 a 1
 double* normalizar(double *dataset, int tamanho){
   if (dataset == NULL || tamanho <= 0){
-    processar_erro(1, "Dataset vazio passado para normalizar\n");
-    printf("Dataset vazio passado para normalizar\n");
+    processar_erro(4, "Dataset vazio passado para normalizar");
+    printf("Erro: Dataset vazio passado para normalizar\n");
     return NULL;
   }
 
@@ -58,15 +58,15 @@ double* normalizar(double *dataset, int tamanho){
 
   // checa se os valores não são todos iguais
   if (max == min){
-    processar_erro(1, "Todos os valores passados para a função normalizar são iguais!\n");
-    printf("Todos os valores são iguais! (normalizar)\n");
+    processar_erro(4, "Todos os valores passados para a função normalizar são iguais!");
+    printf("Erro: Todos os valores são iguais! (normalizar)\n");
     return NULL;
   }
 
   //cria o novo array para a escala normalizada
   double *normalizado = malloc(tamanho * sizeof *dataset);
   if (normalizado == NULL){
-    processar_erro(1, "Erro ao inicializar o vetor dinâmico de valores normalizados");
+    processar_erro(4, "Erro ao inicializar o vetor dinâmico de valores normalizados");
     printf("Erro ao inicializar o vetor dinâmico de valores normalizados\n");
     return NULL;
   } 
@@ -81,8 +81,8 @@ double* normalizar(double *dataset, int tamanho){
 // padroniza os valores para que o desvio padrão dê 1 e a média 0
 double* padronizar(double *dataset, int tamanho){
   if (dataset == NULL || tamanho <= 0){
-    processar_erro(1, "Dataset vazio passado para padronizar\n");
-    printf("Dataset vazio passado para padronizar\n");
+    processar_erro(4, "Dataset vazio passado para padronizar");
+    printf("Erro: Dataset vazio passado para padronizar\n");
     return NULL;
   }
 
@@ -91,15 +91,15 @@ double* padronizar(double *dataset, int tamanho){
 
   // checa se os valores não são todos iguais
   if (dp == 0.0){
-    processar_erro(1, "Todos os valores passados pelo usuário para a função padronizar são iguais!\n");
-    printf("Todos os valores são iguais! (padronizar)\n");
+    processar_erro(4, "Todos os valores passados pelo usuário para a função padronizar são iguais!");
+    printf("Erro: Todos os valores são iguais! (padronizar)\n");
     return NULL;
   }
 
   //cria o novo array para a escala padronizada
   double *padronizado = malloc(tamanho * sizeof *dataset);
   if (padronizado == NULL){
-    processar_erro(1, "Erro ao inicializar o vetor dinâmico de valores padronizados\n");
+    processar_erro(4, "Erro ao inicializar o vetor dinâmico de valores padronizados");
     printf("Erro ao inicializar o vetor dinâmico de valores padronizados\n");
     return NULL;
   } 
@@ -114,15 +114,15 @@ double* padronizar(double *dataset, int tamanho){
 // recebe um percentil do conjunto de dados e retorna o valor que estaria naquele percentil
 double percentil(double *dataset, int tamanho, double porcentagem){
   if (dataset == NULL || tamanho <= 0){
-    processar_erro(1, "Dataset vazio passado para percentil\n");
-    printf("Dataset vazio passado para percentil\n");
+    processar_erro(4, "Dataset vazio passado para percentil");
+    printf("Erro: Dataset vazio passado para percentil\n");
     return NAN;
   }
 
   // checa se passou a porcentagem correta
   if (porcentagem > 100.0 || porcentagem < 0.0){
-    processar_erro(1, "Porcentagem invalida, o usuário digitou uma porcentagem que não está entre 0 e 100");
-    printf("Porcentagem invalida, a porcentagem deve estar entre 0 e 100\n");
+    processar_erro(4, "Porcentagem invalida, o usuário digitou uma porcentagem que não está entre 0 e 100");
+    printf("Erro: Porcentagem invalida, a porcentagem deve estar entre 0 e 100\n");
     return NAN;
   }
 
@@ -145,8 +145,8 @@ double* filtro_outliers(double *dataset, int tamanho, int *novo_tamanho){
   *novo_tamanho = -1; // caso retorne NULL deixa o novo tamanho assim, indicando erro
   
   if (dataset == NULL || tamanho <= 0){
-    processar_erro(1, "Dataset vazio passado para outliers\n");
-    printf("Dataset vazio passado para outliers\n");
+    processar_erro(4, "Dataset vazio passado para outliers");
+    printf("Erro: Dataset vazio passado para outliers\n");
     return NULL;
   }
   
@@ -161,7 +161,7 @@ double* filtro_outliers(double *dataset, int tamanho, int *novo_tamanho){
   double *valores_formatados = malloc(tamanho * sizeof *dataset);
 
   if (valores_formatados == NULL){
-    processar_erro(1, "Erro ao inicializar o vetor dinâmico valores_formatados\n");
+    processar_erro(4, "Erro ao inicializar o vetor dinâmico valores_formatados");
     printf("Erro ao inicializar o vetor dinâmico valores_formatados\n");
     return NULL;
   }
@@ -178,8 +178,8 @@ double* filtro_outliers(double *dataset, int tamanho, int *novo_tamanho){
   // verifica se todos os valores não são outliers
   if (n == 0) {
     free(valores_formatados);
-    processar_erro(1, "Nenhum valor respeita os limites do vetor!\n");
-    printf("Nenhum valor respeita os limites!\n");
+    processar_erro(4, "Nenhum valor respeita os limites do vetor!");
+    printf("Erro: Nenhum valor respeita os limites!\n");
     return NULL;
   }
 
@@ -187,7 +187,7 @@ double* filtro_outliers(double *dataset, int tamanho, int *novo_tamanho){
 
   if (temp == NULL){
     free(valores_formatados);
-    processar_erro(1, "Erro ao criar o arquivo temporário para passar valores para o array valores_formatados\n");
+    processar_erro(4, "Erro ao criar o arquivo temporário para passar valores para o array valores_formatados");
     printf("Erro ao criar o arquivo temporário para passar valores para o array valores_formatados\n");
     return NULL;
   }
