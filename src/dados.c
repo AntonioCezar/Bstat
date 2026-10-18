@@ -31,13 +31,13 @@ double* novovet(int tamanho){
     return vetor;
 }
 
-double* validarvetor(double *vetor){
+int validarvetor(double *vetor){
     if(vetor == NULL) {
         processar_erro(1, "Vetor não válido");
         printf("Vetor não válido\n");
-        return NULL;
+        return 0;
     };
-    return vetor;
+        return 1;
 }
 
 double* coletar_dados(const char *nomedoarquivo, int *quantidade) { //quantidade é um int q já existia e q é alterado por essa função

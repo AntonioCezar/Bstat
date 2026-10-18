@@ -68,10 +68,10 @@ void teste_validar_vetor(){
         teste0[i]=i;
     }
     double* teste1 = NULL;
-    if (validarvetor(teste0)!= NULL) printf("Teste com vetor não nulo bem sucedido\n");
+    if (validarvetor(teste0)) printf("Teste com vetor não nulo bem sucedido\n");
     else printf("O teste falhou\n");
     printf("Teste com vetor nulo:\n");
-    if (validarvetor(teste1)== NULL) printf("Teste com vetor nulo bem sucedido (não válido)!\n");
+    if (!validarvetor(teste1)) printf("Teste com vetor nulo bem sucedido (não válido)!\n");
     else printf("O teste falhou\n");
     liberar_dados(teste0);
     printf("Testes da função finalizados!\n");
