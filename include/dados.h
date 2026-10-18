@@ -49,14 +49,17 @@ void mudtamvet(double **vetor,int novotamanho);
 double* novovet(int tamanho);
  
 /**
- * @brief Verifica se um vetor é válido (não nulo).
+ * @brief Valida se o vetor informado é válido.
  *
- * @param[in] vetor Ponteiro para o vetor a ser verificado.
+ * Verifica se o ponteiro do vetor é diferente de NULL.
+ * Caso seja NULL, registra e exibe uma mensagem de erro.
  *
- * @return O próprio @p vetor, se for válido, ou @c NULL se ele for nulo (caso
- *         em que o erro é registrado).
+ * @param vetor Ponteiro para o vetor de valores do tipo double.
+ *
+ * @return 1 se o vetor for válido.
+ * @return 0 se o vetor for NULL.
  */
-double* validarvetor(double *vetor);
+int validarvetor(double *vetor);
  
 /**
  * @brief Lê números reais de um arquivo de texto e os guarda em um vetor
@@ -103,6 +106,17 @@ void pedirnomedoarquivo(char *nomedoarquivo);
  * @warning Depois da chamada, o ponteiro @p dados não deve mais ser usado.
  */
 void liberar_dados(double *dados);
+
+/**
+ * @brief Imprime os dados armazenados em um vetor.
+ *
+ * Percorre o vetor e imprime cada elemento no formato de ponto flutuante,
+ * com uma quebra de linha após cada valor.
+ *
+ * @param dados Ponteiro para o vetor de valores do tipo double.
+ * @param tamanho Quantidade de elementos do vetor.
+ */
+void imprimir_dados(double *dados, int tamanho);
 
 #endif
 

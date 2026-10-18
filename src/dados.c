@@ -4,7 +4,8 @@
 #include "../errors/error.h"
 
 void mudtamvet(double **vetor,int novotamanho) {//mudtamvet recebe a memória de onde ta o ponteiro de dados
-            double *temp = realloc(*vetor, (novotamanho) * sizeof **vetor);
+        double *temp = NULL;
+        temp = realloc(*vetor, (novotamanho) * sizeof **vetor);
         if (temp == NULL) {
             processar_erro(1, "Erro ao redimendionar o vetor dinâmico");
             printf("Erro ao redimendionar o vetor dinâmico\n");
@@ -20,7 +21,8 @@ double* novovet(int tamanho){
         printf("Erro: tamanho inválido para inicializar vetor dinâmico\n");
         return NULL;
     }
-    double *vetor = malloc(tamanho * sizeof *vetor);
+    double *vetor = NULL;
+    vetor = malloc(tamanho * sizeof *vetor);
     if (vetor==NULL){
         processar_erro(1, "Erro ao inicializar o vetor dinâmico");
         printf("Erro ao inicializar o vetor dinâmico\n");
@@ -29,13 +31,13 @@ double* novovet(int tamanho){
     return vetor;
 }
 
-double* validarvetor(double *vetor){
+int validarvetor(double *vetor){
     if(vetor == NULL) {
         processar_erro(1, "Vetor não válido");
-        printf("Erro: Vetor não válido\n");
-        return NULL;
+        printf("Vetor não válido\n");
+        return 0;
     };
-    return vetor;
+        return 1;
 }
 
 double* coletar_dados(const char *nomedoarquivo, int *quantidade) { //quantidade é um int q já existia e q é alterado por essa função
@@ -73,3 +75,13 @@ void pedirnomedoarquivo(char *nomedoarquivo){ //precisa ter declarado char nomed
 }
 
 void liberar_dados(double *dados){ free(dados); }
+
+void imprimir_dados(double *dados,int tamanho){
+    for (int i = 0; i < tamanho; i++)
+    {
+        printf("%f \n",dados[i]);
+    }
+    
+
+
+}
