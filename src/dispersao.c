@@ -18,7 +18,7 @@
         if (num == 0) return 0;
 
         double palpite = num / 2.0;
-        double margem_de_erro = 0.000001; 
+        double margem_de_erro = 0.1; 
 
         while (valor_absoluto((palpite * palpite) - num) > margem_de_erro) {
             palpite = 0.5 * (palpite + (num / palpite));
@@ -41,7 +41,7 @@
             var += elevado(med - dataset[i], 2);
         }
 
-        return (var / tamanho);                                                                 
+        return (var / tamanho);
     }
 
     double desvio_padrao(double* dataset, int tamanho) {

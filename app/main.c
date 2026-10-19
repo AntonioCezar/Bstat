@@ -60,9 +60,9 @@ int main(int argc, char *argv[]) {
 
         int qtd_modas = 0;
         double *modas = moda(dataset, qtd, &qtd_modas);
-        if (!validarvetor(modas)) return 1;
 
         printf("**Moda(s):                  ");
+        if (qtd_modas == 0) printf("Não há moda");
         imprimir_dados(modas, qtd_modas);
         
         printf("\n");

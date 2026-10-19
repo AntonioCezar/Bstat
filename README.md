@@ -124,7 +124,7 @@ binomial(numero_de_ensaios, numero_de_sucessos, probabilidade_sucesso)
 - Geométrica
 
 ```c
-binomial(numero_de_ensaios_ate_sucesso, probabilidade_sucesso)
+geometrica(numero_de_ensaios_ate_sucesso, probabilidade_sucesso)
 ```
 
 - Hipergeométrica
@@ -167,11 +167,19 @@ filtro_outliers(vetor_dataset, tamanho_do_vetor, vetor_para_guardar_novo_tamanho
 
 ## Makefile
 
+### Compilar
+
 ```bash
 make
 ```
 
-Exibe para o usuário os principais comandos para a utilização do makefile.
+ou
+
+```bash
+make build
+```
+
+Compila a biblioteca e a aplicação. 
 
 ### Instalar
 
@@ -181,21 +189,13 @@ make install PREFIX=$HOME/.local
 
 Instala a biblioteca para ser utilizada no sistema do usuário.
 
-### Compilar
-
-```bash
-make all
-```
-
-Compila todos os arquivos .c da biblioteca.
-
 ### Testar
 
 ```bash
 make test
 ```
 
-Testa o programa com casos de teste base para garantir o pleno funcionamento da bibioteca.
+Testa o programa com casos de teste base para garantir o pleno funcionamento da biblioteca.
 
 ### Executar
 
@@ -203,7 +203,7 @@ Testa o programa com casos de teste base para garantir o pleno funcionamento da 
 make run
 ```
 
-Compila, caso necessário, e executa o programa .c com todas as bibliotecas
+Compila, caso necessário, e executa o programa .c com a versão dinâmica da biblioteca. A versão estática estará em `bin/bstat_static`.
 
 ### Limpar
 
@@ -212,6 +212,16 @@ make clean
 ```
 
 Limpa todos os artefatos gerados na compilação das bibliotecas.
+
+## Bibliotecas Estática e Dinâmica
+
+Geradas em `lib/` pelo `make all`:
+
+- `libBstatStatic.a` (estática): copiada para o executável na compilação.
+- `libBstatDinamic.so` (dinâmica): carregada na execução.
+
+Executáveis em `bin/`: `bstat_static` e `bstat_dinamic`.
+
 
 ## Tratamento de Erros
 
@@ -222,7 +232,7 @@ O módulo recebe a mensagem de erro e o código, abaixo estão listado os códig
 - Código 1 - Módulo de Dados
 - Código 2 - Módulo de Dispersão
 - Código 3 - Módulo de Tendência Central
-- Código 4 - Módulo de Tranformações
+- Código 4 - Módulo de Transformações
 - Código 5 - Módulo de Distribuições
 
 ## Estratégia no Git
@@ -240,4 +250,4 @@ Além de uma branch adicional para auxiliar na comunicação entre os módulos d
 
 - develop
 
-Os merges para a `main` foi feito após o programa foi finalizado e testado.
+Os merges para a `main` foram feitos após o programa ser finalizado e testado.
