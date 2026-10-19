@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "minunit.h"
 #include "distribuicao.h"
 
@@ -36,6 +37,35 @@ static const Caso casos[] = {
 };
 
 #define NUM_CASOS ((int) (sizeof(casos)/sizeof(casos[0])))
+
+// valores inválidos: fatorial retorna -1 e as demais funções retornam NAN
+static void teste_valores_invalidos(void) {
+
+    static const Caso invalidos[] = {
+        {-1, -1, -1, -1, -1, -1.0, -1, -1, -1, -1, -1, -1, 0, 0, 0, 0, 0, 0, 0},
+    };
+
+    printf("  [fatorial n=-1]\n");
+    ASSERT_EQ_INT(-1, fatorial(-1));
+
+    printf("  [elevado base=-1 expoente=-1]\n");
+    ASSERT_EQ_INT(1, isnan(elevado(-1, -1)) != 0);
+
+    printf("  [combinacao n=-1 k=-1]\n");
+    ASSERT_EQ_INT(1, isnan(combinacao(-1, -1)) != 0);
+
+    printf("  [binomial n=-1 k=-1 p=-1]\n");
+    ASSERT_EQ_INT(1, isnan(binomial(-1, -1, -1.0)) != 0);
+
+    printf("  [geometrica k=-1 p=-1]\n");
+    ASSERT_EQ_INT(1, isnan(geometrica(-1, -1.0)) != 0);
+
+    printf("  [hipergeometrica N=-1 R=-1 n=-1 k=-1]\n");
+    ASSERT_EQ_INT(1, isnan(hipergeometrica(-1, -1, -1, -1)) != 0);
+
+    printf("  [poisson k=-1 lambda=-1]\n");
+    ASSERT_EQ_INT(1, isnan(poisson(-1, -1)) != 0);
+}
 
 // testa a função fatorial
 static void teste_fatorial(void) {
@@ -123,5 +153,6 @@ int main(void) {
     RUN_TESTE(teste_hipergeometrica);
     RUN_TESTE(teste_poisson);
     RUN_TESTE(teste_somas);
+    RUN_TESTE(teste_valores_invalidos);
     RESUMO_TESTE();
 }
