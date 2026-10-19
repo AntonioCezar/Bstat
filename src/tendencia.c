@@ -10,7 +10,7 @@ int quase_igual(double a, double b) {
     double d = a - b;
     if (d < 0) d = -d;
     //Diferença tolerada
-    return d < 1e-6;
+    return d < 1e-5;
 }
 
 static int validar_tamanho(int tamanho) {

@@ -6,26 +6,8 @@
     #include "tendencia.h"
     #include "error.h"
 
-    double valor_absoluto(double num) {
-        if (num < 0) return -num;
-        else return num;
-    }
-
     // se o número for não negativo a função retorna a raiz quadrada do número
     // caso contrário, retorna NAN
-    double raiz_quadrada(double num) {
-        if (isnan(num) || num < 0) return NAN;
-        if (num == 0) return 0;
-
-        double palpite = num / 2.0;
-        double margem_de_erro = 0.000001; 
-
-        while (valor_absoluto((palpite * palpite) - num) > margem_de_erro) {
-            palpite = 0.5 * (palpite + (num / palpite));
-        }
-
-        return palpite;
-    }
 
     double variancia(double* dataset, int tamanho) {
         if (dataset == NULL || tamanho <= 0) {
@@ -41,7 +23,7 @@
             var += elevado(med - dataset[i], 2);
         }
 
-        return (var / tamanho);                                                                 
+        return (var / tamanho);
     }
 
     double desvio_padrao(double* dataset, int tamanho) {
@@ -61,7 +43,7 @@
             return NAN;
         }
 
-        return raiz_quadrada(var);
+        return sqrt(var);
     }
 
     double amplitude(double* dataset, int tamanho) {

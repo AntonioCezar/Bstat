@@ -34,45 +34,152 @@ Bstat/
 ## Gestão de dados central
 
 - Criar Dataset
+
+```c
+coletar_dados(caminho_do_arquivo_txt, ponteiro_para_int_que_guardara_tamanho_do_vetor_criado)
+```
+  
 - Liberar Dataset
-- Obter Tamanho
+
+```c
+liberar_dataset(vetor_dataset)
+```
+
 - Validar Dataset
 
-Coleta de dados para o dataset mudará de acordo com a função que será chamada e usará alocação dinâmica de espaçi para guardar as informações que o usuário passar.
+```c
+validarvetor(vetor_dataset)
+```
+
+- Imprimir Dataset
+
+```c
+imprimir_dados(vetor_dataset, tamanho_do_vetor)
+```
+
+A função *coletar_dados* (Criar Dataset) coletará os valores de um arquivo com extensão `.txt` com valores separados por uma quebra de linha. A função usa alocação dinâmica de espaço para guardar as informações que o usuário passar.
+
+Já a função *validarvetor* (Validar Dataset) tem o objetivo de checar se o vetor dinâmico passado pelo usuário na utilização direta da biblioteca em seu código é válido para a utilização nas funções disponíveis da BStat.
 
 ## Medidas de tendência central
 
 - Média
+
+```c
+media(vetor_dataset, tamanho_do_vetor)
+```
+
 - Mediana
+
+```c
+mediana(vetor_dataset, tamanho_do_vetor)
+```
+
 - Moda
-- Máximo
-- Mínimo
+
+```c
+moda(vetor_dataset, tamanho_do_vetor, quantidade_modas)
+```
 
 ## Medidas de dispersão
 
 - Variância
+
+```c
+variancia(vetor_dataset, tamanho_do_vetor)
+```
+
 - Desvio Padrão
+
+```c
+desvio_padrao(vetor_dataset, tamanho_do_vetor)
+```
+
 - Amplitude
+
+```c
+amplitude(vetor_dataset, tamanho_do_vetor)
+```
+
+- Coeficiente de Variação
+
+```c
+coef_variacao(vetor_dataset, tamanho_do_vetor)
+```
+
+## Distribuições
+
+- Combinação
+
+```c
+combinacao(numero_total, numero_de_escolhas_do_total)
+```
+
+- Binomial
+
+```c
+binomial(numero_de_ensaios, numero_de_sucessos, probabilidade_sucesso)
+```
+
+- Geométrica
+
+```c
+geometrica(numero_de_ensaios_ate_sucesso, probabilidade_sucesso)
+```
+
+- Hipergeométrica
+
+```c
+hipergeometrica(tamanho_populacao, sucessos_populacao, tamanho_amostra, sucessos_amostra)
+```
+
+- Poisson
+
+```c
+poisson(numero_ocorrencias, taxa_media)
+```
 
 ## Transformações
 
 - Normalizar Escala
+
+```c
+normalizar(vetor_dataset, tamanho_do_vetor)
+```
+
 - Padronização
+
+```c
+padronizar(vetor_dataset, tamanho_do_vetor)
+```
+
 - Percentil
 
-## Comandos
+```c
+percentil(vetor_dataset, tamanho_do_vetor, percentil_desejado, vetor_para_guardar_retorno_da_funcao)
+```
 
-- Comando 1
-- Comando 2
-- Comando 3
+- Remoção de Outliers
+
+```c
+filtro_outliers(vetor_dataset, tamanho_do_vetor, vetor_para_guardar_novo_tamanho_sem_outliers)
+```
 
 ## Makefile
+
+### Compilar
 
 ```bash
 make
 ```
 
-Exibe para o usuário os principais comandos para a utilização do makefile.
+ou
+
+```bash
+make build
+```
+
+Compila a biblioteca e a aplicação. 
 
 ### Instalar
 
@@ -82,21 +189,13 @@ make install PREFIX=$HOME/.local
 
 Instala a biblioteca para ser utilizada no sistema do usuário.
 
-### Compilar
-
-```bash
-make all
-```
-
-Compila todos os arquivos .c da biblioteca.
-
 ### Testar
 
 ```bash
 make test
 ```
 
-Testa o programa com casos de teste base para garantir o pleno funcionamento da bibioteca.
+Testa o programa com casos de teste base para garantir o pleno funcionamento da biblioteca.
 
 ### Executar
 
@@ -104,7 +203,7 @@ Testa o programa com casos de teste base para garantir o pleno funcionamento da 
 make run
 ```
 
-Compila, caso necessário, e executa o programa .c com todas as bibliotecas
+Compila, caso necessário, e executa o programa .c com a versão dinâmica da biblioteca. A versão estática estará em `bin/bstat_static`.
 
 ### Limpar
 
@@ -114,22 +213,41 @@ make clean
 
 Limpa todos os artefatos gerados na compilação das bibliotecas.
 
+## Bibliotecas Estática e Dinâmica
+
+Geradas em `lib/` pelo `make all`:
+
+- `libBstatStatic.a` (estática): copiada para o executável na compilação.
+- `libBstatDinamic.so` (dinâmica): carregada na execução.
+
+Executáveis em `bin/`: `bstat_static` e `bstat_dinamic`.
+
+
 ## Tratamento de Erros
 
 Módulo de erro central que lida com possibilidades de erro de todos os módulos em apenas um script, visando deixar o tratamento padronizado e organizado para todo o projeto.
 
+O módulo recebe a mensagem de erro e o código, abaixo estão listado os códigos dos erros tratados:
+
+- Código 1 - Módulo de Dados
+- Código 2 - Módulo de Dispersão
+- Código 3 - Módulo de Tendência Central
+- Código 4 - Módulo de Transformações
+- Código 5 - Módulo de Distribuições
+
 ## Estratégia no Git
 
-Existirá uma branch para cada um dos 4 principais módulos:
+Há no projeto uma branch para cada um dos 4 principais módulos:
 
 - Gestão de dados
 - Medidas de tendência central
 - Medidas de dispersão
 - Transformações
 
-Além de branchs adicionais para a adição de outros módulos importantes como:
+#### O módulo de distribuição foi adicionado em conjunto com o módulo de transformações, usando a mesma branch.
 
-- Makefile
-- ErrorHandler
+Além de uma branch adicional para auxiliar na comunicação entre os módulos durante o projeto:
 
-Os merges para a `main` são feitos de forma incremental, conforme cada módulo é finalizado e testado.
+- develop
+
+Os merges para a `main` foram feitos após o programa ser finalizado e testado.
