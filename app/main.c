@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
         double *modas = moda(dataset, qtd, &qtd_modas);
 
         printf("**Moda(s):                  ");
-        if (qtd_modas == 0) printf("Não há moda");
+        if (qtd_modas == 0) printf("Não há moda\n");
         imprimir_dados(modas, qtd_modas);
         
         printf("\n");
