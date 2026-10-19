@@ -8,6 +8,12 @@
 long fatorial(long n){
   if (n < 0) {
     processar_erro(5, "Fatorial: número negativo passado pelo usuário");
+    printf("Erro: Não existe fatorial de número negativo\n");
+    return -1;
+  }
+  if (n > 20) {
+    processar_erro(5, "Fatorial: número maior que 20 estoura limite de long");
+    printf("Erro: fatorial de n > 20 estoura limite de long\n");
     return -1;
   }
   long fator = 1; for (; n > 0; n--) fator *= n; return fator;

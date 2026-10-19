@@ -16,12 +16,12 @@
 #include "../include/dados.h"
 #include "../include/tendencia.h"
 #include "../include/transformacao.h"
-#include "../include/dispersao.h"     
+#include "../include/dispersao.h"
 #include "../include/distribuicao.h" 
 
 int rotina(double* dataset, int qtd) {
     if (!validarvetor(dataset)) return 1;
-    imprimir_dados(dataset, qtd, "\n");
+    imprimir_dados(dataset, qtd);
     printf("(...) \n");
     liberar_dados(dataset);
     printf("\n");
@@ -30,7 +30,7 @@ int rotina(double* dataset, int qtd) {
 
 int main(int argc, char *argv[]) {
     char nomedoarquivo[260];
-    const char *caminho;
+    char *caminho;
     int qtd = 0;
 
     //Descobrir qual arquivo ler
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
     }
 
     //Carregar os dados
-    const double *dataset = coletar_dados(caminho, &qtd);
+    double *dataset = coletar_dados(caminho, &qtd);
     if (dataset == NULL || qtd <= 0) {
         fprintf(stderr, "Nao foi possivel carregar dados de '%s'.\n", caminho);
         liberar_dados(dataset);
@@ -63,7 +63,7 @@ int main(int argc, char *argv[]) {
         if (!validarvetor(modas)) return 1;
 
         printf("**Moda(s):                  ");
-        imprimir_dados(modas, qtd_modas, ",");
+        imprimir_dados(modas, qtd_modas);
         
         printf("\n");
         liberar_dados(modas);
