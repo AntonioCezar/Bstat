@@ -1,5 +1,6 @@
 ﻿#include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "minunit.h"
 #include "../include/tendencia.h"
 #include "../include/dados.h"
@@ -49,6 +50,13 @@ static void teste_media(void) {
     }
 }
 
+//Testa a função média quando o retorno é inválido
+static void teste_media_invalido(void) {
+    double *v = NULL;
+    int tamanho = 0;
+    ASSERT_EQ_DOUBLE(1, isnan(media(v, tamanho)));
+}
+
 static void teste_mediana(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
         printf("  [%s]\n", casos[i].arquivo);
@@ -72,12 +80,20 @@ static void teste_moda(void) {
     }
 }
 
+//Testa a função moda quando o retorno é inválido
+static void teste_moda_invalido(void) {
+    double *v = NULL;
+    int tamanho = 0, qtd = 0;
+    ASSERT_EQ_DOUBLE(1, (moda(v, tamanho, &qtd)) == NULL);
+}
 
 int main(void) {
     preencher_dataset();
     RUN_TESTE(teste_media);
+    RUN_TESTE(teste_media_invalido);
     RUN_TESTE(teste_mediana);
     RUN_TESTE(teste_moda);
+    RUN_TESTE(teste_moda_invalido);
     liberar_dataset();
     RESUMO_TESTE();
 }

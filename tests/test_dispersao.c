@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "minunit.h"
 #include "../include/dispersao.h"
 #include "../include/dados.h"
@@ -48,6 +49,13 @@ static void teste_variancia(void) {
     }
 }
 
+// testa a função variancia caso a entrada seja inválida
+static void teste_variancia_invalido(void) {
+    double *v = NULL;
+    int tamanho = 0;
+    ASSERT_EQ_DOUBLE(1, isnan(variancia(v, tamanho)));
+}
+
 // testa a função desvio_padrao
 static void teste_desvio_padrao(void) {
     for (int i = 0; i < NUM_CASOS; i++) {
@@ -72,13 +80,22 @@ static void teste_coef_variacao(void) {
     }
 }
 
+// testa a função coef_variação com media igual a zero 
+static void teste_coef_variacao_invalido(void) {
+    double v[3] = {0, 0, 0};
+    int tamanho = 3;
+    ASSERT_EQ_DOUBLE(1, isnan(coef_variacao(v, tamanho)));
+}
+
 // roda os testes
 int main(void) {
     preencher_dataset();
     RUN_TESTE(teste_variancia);
+    RUN_TESTE(teste_variancia_invalido);
     RUN_TESTE(teste_desvio_padrao);
     RUN_TESTE(teste_amplitude);
     RUN_TESTE(teste_coef_variacao);
+    RUN_TESTE(teste_coef_variacao_invalido);
     liberar_dataset();
     RESUMO_TESTE();
 }

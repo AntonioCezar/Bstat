@@ -60,9 +60,9 @@ int main(int argc, char *argv[]) {
 
         int qtd_modas = 0;
         double *modas = moda(dataset, qtd, &qtd_modas);
-        if (!validarvetor(modas)) return 1;
 
         printf("**Moda(s):                  ");
+        if (qtd_modas == 0) printf("Não há moda");
         imprimir_dados(modas, qtd_modas);
         
         printf("\n");
@@ -98,6 +98,14 @@ int main(int argc, char *argv[]) {
         printf("***Retorna o valor naquele percentil\n");
         printf("***Percentil 25:            %.4f\n", percentil(dataset, qtd, 25.0));
         printf("***Percentil 75:            %.4f\n", percentil(dataset, qtd, 75.0));
+
+        printf("\n");
+
+        printf("**Filtro de outliers:\n");
+        printf("***Dataset sem outliers:\n");
+        int novo_qtd = 0;
+        copia = filtro_outliers(dataset, qtd, &novo_qtd);
+        rotina(copia, 5);
 
     //Distribuição
     printf("\n--- Distribuição ---\n");
