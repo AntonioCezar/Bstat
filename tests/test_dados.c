@@ -77,10 +77,31 @@ void teste_validar_vetor(){
     printf("Testes da função finalizados!\n");
 }
 
+void teste_imprimir_vetor(){
+    printf(COR_AMARELO "*** teste da função imprimir_dados ***" COR_RESET "\n");
+    double* teste0 = NULL;
+    teste0 = novovet(5);
+    for (int i = 0; i < 5; i++)
+    {
+        teste0[i]=i;
+    }
+    
+    printf( "Teste para vetor com tamanho válido\n");
+    imprimir_dados(teste0,5);
+    printf( "Teste para vetor com tamanho inválido\n");
+    double* teste1 = NULL;
+    imprimir_dados(teste1,0);
+    liberar_dados(teste0);
+    liberar_dados(teste1);
+    printf("Testes da função finalizados!\n");
+}
+
+
 
 int main(void) {
     teste_liberar_vetor();
     teste_validar_vetor();
+    teste_imprimir_vetor();
         RUN_TESTE(teste_dados);
     RESUMO_TESTE(); //aqui ele retorna 0 se todos os testes forem bem sucedidos
 
