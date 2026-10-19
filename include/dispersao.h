@@ -14,24 +14,6 @@
 #define DISPERSAO_H
 
 /**
- * @brief Calcula o valor absoluto (módulo) de um número real.
- *
- * @param[in] num Número a ser convertido.
- *
- * @return O valor absoluto do número informado (sempre positivo ou zero).
- */
-double valor_absoluto(double num);
-
-/**
- * @brief Calcula a raiz quadrada de um número real.
- *
- * @param[in] num Número do qual se deseja obter a raiz quadrada.
- *
- * @return A raiz quadrada do número, ou @c NAN se @p num for negativo (número imaginário).
- */
-double raiz_quadrada(double num);
-
-/**
  * @brief Calcula a variância populacional de um conjunto de dados.
  *
  * @param[in] dataset Ponteiro para o vetor contendo as amostras numéricas.
