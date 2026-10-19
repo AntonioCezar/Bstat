@@ -10,40 +10,42 @@ all: lib/libBstatStatic.a lib/libBstatDinamic.so
 
 # -----
 
-lib/libBstatStatic.a: $(OBJ)
+lib/libBstatStatic.a: $(OBJ) | dirs
 	ar rcs $@ $^
 
-lib/libBstatDinamic.so: $(OBJ)
+lib/libBstatDinamic.so: $(OBJ) | dirs
 	$(CC) -shared $^ -o $@ -lm
 
 # -----
 
-bin/bstat_static: $(MAIN)
-	$(CC) $(MAIN) -Llib -lBstatStatic -o $@ -lm
+bin/bstat_static: $(MAIN) | dirs
+	$(CC) $(MAIN) -Llib -lBstatStatic -o $@ -lm 
 
-bin/bstat_dinamic: $(MAIN)
+bin/bstat_dinamic: $(MAIN) | dirs
 	$(CC) $(MAIN) -Llib -lBstatDinamic -Wl,-rpath,'$$ORIGIN/../lib' -o $@ -lm
 
 # -----
 
-build/%.o: src/%.c $(HEADERS) | build
+build/%.o: src/%.c $(HEADERS) | dirs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/error.o: errors/error.c $(HEADERS) | build
+build/error.o: errors/error.c $(HEADERS) | dirs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/main.o: app/main.c $(HEADERS) | build
+build/main.o: app/main.c $(HEADERS) | dirs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/test_%: tests/test_%.c $(OBJ) | build
+build/test_%: tests/test_%.c $(OBJ) | dirs
 	$(CC) $(TEST_FLAGS) $^ -o $@ -lm
 
 # -----
 
-build:
-	mkdir -p build
-	mkdir -p bin
-	mkdir -p lib
+build: all
+
+# -----
+
+dirs:
+	mkdir -p build bin lib
 
 # -----
 
