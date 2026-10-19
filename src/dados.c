@@ -4,6 +4,11 @@
 #include "../errors/error.h"
 
 void mudtamvet(double **vetor,int novotamanho) {//mudtamvet recebe a memória de onde ta o ponteiro de dados
+        if (novotamanho <= 0) { 
+        processar_erro(1, "Tamanho inválido para realocar vetor dinâmico");
+        printf("Erro: tamanho inválido para realocar vetor dinâmico\n");
+        return;
+    }
         double *temp = NULL;
         temp = realloc(*vetor, (novotamanho) * sizeof **vetor);
         if (temp == NULL) {
@@ -77,6 +82,11 @@ void pedirnomedoarquivo(char *nomedoarquivo){ //precisa ter declarado char nomed
 void liberar_dados(double *dados){ free(dados); }
 
 void imprimir_dados(double *dados,int tamanho){
+    if (tamanho <= 0) { 
+        processar_erro(1, "Tamanho do vetor inválido");
+        printf("Erro: tamanho do vetor inválido\n");
+        return;
+    }
     for (int i = 0; i < tamanho; i++)
     {
         printf("%f \n",dados[i]);
