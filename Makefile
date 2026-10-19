@@ -1,12 +1,12 @@
 CC = gcc
-CFLAGS = -fPIC -Wall -Iinclude -Ierrors
+CFLAGS = -fPIC -Wall -Iinclude -Ierrors -MMD -MP
 OBJ = $(patsubst src/%.c,build/%.o,$(wildcard src/*.c)) build/error.o
 MAIN = build/main.o
 TEST_BIN = $(patsubst tests/%.c,build/%,$(wildcard tests/test_*.c))
 HEADERS = $(wildcard include/*.h errors/*.h)
 TEST_FLAGS = -Wall -g -fsanitize=address,undefined -Iinclude -Ierrors # o sanitize detecta memory-leaks
 
-all: lib/libBstatStatic.a lib/libBstatDinamic.so
+all: lib/libBstatStatic.a lib/libBstatDinamic.so bin/bstat_static bin/bstat_dinamic
 
 # -----
 
@@ -18,25 +18,25 @@ lib/libBstatDinamic.so: $(OBJ) | dirs
 
 # -----
 
-bin/bstat_static: $(MAIN) | dirs
+bin/bstat_static: $(MAIN) lib/libBstatStatic.a | dirs
 	$(CC) $(MAIN) -Llib -lBstatStatic -o $@ -lm 
 
-bin/bstat_dinamic: $(MAIN) | dirs
+bin/bstat_dinamic: $(MAIN) lib/libBstatDinamic.so | dirs
 	$(CC) $(MAIN) -Llib -lBstatDinamic -Wl,-rpath,'$$ORIGIN/../lib' -o $@ -lm
 
 # -----
 
-build/%.o: src/%.c $(HEADERS) | dirs
+build/%.o: src/%.c | dirs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/error.o: errors/error.c $(HEADERS) | dirs
+build/error.o: errors/error.c | dirs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/main.o: app/main.c $(HEADERS) | dirs
+build/main.o: app/main.c | dirs
 	$(CC) $(CFLAGS) -c $< -o $@
 
-build/test_%: tests/test_%.c $(OBJ) | dirs
-	$(CC) $(TEST_FLAGS) $^ -o $@ -lm
+build/test_%: tests/test_%.c $(OBJ) $(HEADERS) | dirs
+	$(CC) $(TEST_FLAGS) $< $(OBJ) -o $@ -lm
 
 # -----
 
@@ -50,7 +50,7 @@ dirs:
 # -----
 
 clean:
-	rm -f build/*.o build/test_*
+	rm -f build/*.o build/*.d build/test_*
 	rm -f lib/*.a lib/*.so
 	rm -f bin/bstat_dinamic bin/bstat_static
 
@@ -71,8 +71,7 @@ install: all bin/bstat_static bin/bstat_dinamic
 	install -m 755 lib/libBstatDinamic.so $(DESTDIR)$(PREFIX)/lib/
 	install -m 644 include/*.h $(DESTDIR)$(PREFIX)/include/Bstat/
 	install -m 755 bin/bstat_dinamic $(DESTDIR)$(PREFIX)/bin/
-
-.PHONY: all clean run install uninstall test
+	install -m 644 errors/*.h $(DESTDIR)$(PREFIX)/include/Bstat/
 
 # -----
 
@@ -84,4 +83,6 @@ test: $(TEST_BIN)
 
 # -----
 
-.PHONY: all clean run install test
+-include $(wildcard build/*.d)
+
+.PHONY: all build clean run install test dirs
