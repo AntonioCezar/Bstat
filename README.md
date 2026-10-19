@@ -48,12 +48,18 @@ liberar_dataset(vetor_dataset)
 - Validar Dataset
 
 ```c
-validar(vetor_dataset)
+validarvetor(vetor_dataset)
+```
+
+- Imprimir Dataset
+
+```c
+imprimir_dados(vetor_dataset, tamanho_do_vetor)
 ```
 
 A função *coletar_dados* (Criar Dataset) coletará os valores de um arquivo com extensão `.txt` com valores separados por uma quebra de linha. A função usa alocação dinâmica de espaço para guardar as informações que o usuário passar.
 
-Já a função *validar* (Validar Dataset) tem o objetivo de checar se o vetor dinâmico passado pelo usuário na utilização direta da biblioteca em seu código é válido para a utilização nas funções disponíveis da BStat.
+Já a função *validarvetor* (Validar Dataset) tem o objetivo de checar se o vetor dinâmico passado pelo usuário na utilização direta da biblioteca em seu código é válido para a utilização nas funções disponíveis da BStat.
 
 ## Medidas de tendência central
 
@@ -99,6 +105,38 @@ amplitude(vetor_dataset, tamanho_do_vetor)
 
 ```c
 coef_variacao(vetor_dataset, tamanho_do_vetor)
+```
+
+## Distribuições
+
+- Combinação
+
+```c
+combinacao(numero_total, numero_de_escolhas_do_total)
+```
+
+- Binomial
+
+```c
+binomial(numero_de_ensaios, numero_de_sucessos, probabilidade_sucesso)
+```
+
+- Geométrica
+
+```c
+binomial(numero_de_ensaios_ate_sucesso, probabilidade_sucesso)
+```
+
+- Hipergeométrica
+
+```c
+hipergeometrica(tamanho_populacao, sucessos_populacao, tamanho_amostra, sucessos_amostra)
+```
+
+- Poisson
+
+```c
+poisson(numero_ocorrencias, taxa_media)
 ```
 
 ## Transformações
@@ -179,11 +217,13 @@ Limpa todos os artefatos gerados na compilação das bibliotecas.
 
 Módulo de erro central que lida com possibilidades de erro de todos os módulos em apenas um script, visando deixar o tratamento padronizado e organizado para todo o projeto.
 
-O módulo recebe a mensagem de erro e o código, abaixo estão listado os códigos dos principais erros tratados:
+O módulo recebe a mensagem de erro e o código, abaixo estão listado os códigos dos erros tratados:
 
-- erro 1 (desc)
-- erro 2 (desc)
-- erro 3 (desc)
+- Código 1 - Módulo de Dados
+- Código 2 - Módulo de Dispersão
+- Código 3 - Módulo de Tendência Central
+- Código 4 - Módulo de Tranformações
+- Código 5 - Módulo de Distribuições
 
 ## Estratégia no Git
 
@@ -194,8 +234,10 @@ Há no projeto uma branch para cada um dos 4 principais módulos:
 - Medidas de dispersão
 - Transformações
 
+#### O módulo de distribuição foi adicionado em conjunto com o módulo de transformações, usando a mesma branch.
+
 Além de uma branch adicional para auxiliar na comunicação entre os módulos durante o projeto:
 
 - develop
 
-Os merges para a `main` são feitos de forma incremental, conforme cada módulo é finalizado e testado.
+Os merges para a `main` foi feito após o programa foi finalizado e testado.

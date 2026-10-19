@@ -76,7 +76,7 @@ void pedirnomedoarquivo(char *nomedoarquivo){ //precisa ter declarado char nomed
 
 void liberar_dados(double *dados){ free(dados); }
 
-void imprimir_dados(double *dados,int tamanho){
+void imprimir_dados(double *dados, int tamanho){
     for (int i = 0; i < tamanho; i++)
     {
         printf("%f \n",dados[i]);
